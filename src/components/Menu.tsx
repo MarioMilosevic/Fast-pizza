@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { url } from "../utils/constants";
-import { fetchResponse, PizzaItem } from "../utils/types";
+import { PizzaItem } from "../utils/types";
 import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaItem[]>([]);

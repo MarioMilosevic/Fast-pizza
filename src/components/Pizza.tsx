@@ -1,5 +1,4 @@
 import { PizzaItem } from "../utils/types";
-import pica from "../assets/probno.jpg";
 
 const Pizza = ({
   imageUrl,
@@ -16,18 +15,26 @@ const Pizza = ({
           <div>
             <h2 className="text-sm font-medium">{name}</h2>
             <div className="flex gap-1">
-              {ingredients.map((ingredient: string) => (
-                <p className="capitalize italic text-xs">{ingredient}</p>
+              {ingredients.map((ingredient: string, index: number) => (
+                <p className="capitalize italic text-xs">
+                  {index === ingredients.length - 1
+                    ? ingredient
+                    : `${ingredient}, `}
+                </p>
               ))}
             </div>
           </div>
-          <p className="text-sm">{soldOut ? "SOLD OUT" : `€${unitPrice.toFixed(2)}`}</p>
+          <p className="text-sm">
+            {soldOut ? "SOLD OUT" : `€${unitPrice.toFixed(2)}`}
+          </p>
         </div>
       </div>
       <div className="flex flex-col justify-end">
-        <button className="px-2 text-xs uppercase tracking-wide  bg-yellow-400 rounded-full md:px-5 md:py-2.5 transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring-yellow-300 focus:ring-offset-2">
-          Add to Cart
-        </button>
+        {!soldOut && (
+          <button className="px-2 text-xs uppercase tracking-wide  bg-yellow-400 rounded-full md:px-5 md:py-2.5 transition-colors duration-300 hover:bg-yellow-300 focus:outline-none focus:ring-yellow-300 focus:ring-offset-2">
+            Add to Cart
+          </button>
+        )}
       </div>
     </li>
   );

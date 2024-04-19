@@ -1,7 +1,7 @@
 export type PizzaItem = {
   id: number;
   imageUrl: string;
-  ingrediends: string[];
+  ingredients: string[];
   name: string;
   soldOut: boolean;
   unitPrice: number;
