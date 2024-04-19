@@ -2,17 +2,14 @@ import Header from "./components/Header";
 import Welcome from "./components/Welcome";
 import Menu from "./components/Menu";
 import { RootState } from "./redux/store/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 function App() {
   const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
-  console.log();
   return (
     <>
       <Header />
       <main className="w-[750px] mx-auto">
-        {/* <Welcome /> */}
-        <Menu />
+        {user.name !== "" ? <Menu/> : <Welcome/>}
       </main>
     </>
   );
