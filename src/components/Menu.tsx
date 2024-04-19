@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { url } from "../utils/constants";
-import { PizzaItem } from "../utils/types";
+import { PizzaType } from "../utils/types";
 import Pizza from "./Pizza";
 const Menu = () => {
-  const [pizzas, setPizzas] = useState<PizzaItem[]>([]);
+  const [pizzas, setPizzas] = useState<PizzaType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +25,9 @@ const Menu = () => {
 
   return (
     <ul>
-          {pizzas.map(pizza => <Pizza key={pizza.id} {...pizza} />) }
+      {pizzas.map((pizza) => (
+        <Pizza key={pizza.id} {...pizza} />
+      ))}
     </ul>
   );
 };

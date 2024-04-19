@@ -1,4 +1,4 @@
-import { PizzaItem } from "../utils/types";
+import { PizzaType } from "../utils/types";
 
 const Pizza = ({
   imageUrl,
@@ -6,17 +6,21 @@ const Pizza = ({
   ingredients,
   soldOut,
   unitPrice,
-}: PizzaItem) => {
+}: PizzaType) => {
   return (
     <li className="py-2 flex justify-between">
       <div className="flex gap-4">
-        <img src={imageUrl} alt={name} className="h-24" />
-        <div className="flex flex-col py-2 justify-between">
+        <img
+          src={imageUrl}
+          alt={name}
+          className={`h-24 ${soldOut && "grayscale opacity-70"}`}
+        />
+        <div className="flex flex-col py-1 justify-between">
           <div>
             <h2 className="text-sm font-medium">{name}</h2>
             <div className="flex gap-1">
               {ingredients.map((ingredient: string, index: number) => (
-                <p className="capitalize italic text-xs">
+                <p key={index} className="capitalize italic text-xs">
                   {index === ingredients.length - 1
                     ? ingredient
                     : `${ingredient}, `}

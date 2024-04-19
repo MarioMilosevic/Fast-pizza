@@ -1,4 +1,4 @@
-export type PizzaItem = {
+export type PizzaType = {
   id: number;
   imageUrl: string;
   ingredients: string[];
@@ -9,5 +9,5 @@ export type PizzaItem = {
 
 export type fetchResponse = {
   status: string;
-  data: PizzaItem[];
+  data: PizzaType[];
 };
