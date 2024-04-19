@@ -1,9 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createUser } from "../redux/features/userSlice";
 import { useState } from "react";
+import { RootState } from "../redux/store/store";
+import { Link } from "react-router-dom";
 const Welcome = () => {
+  const user = useSelector((state: RootState) => state.user);
   const [value, setValue] = useState<string>("");
   const dispatch = useDispatch();
+  console.log(user.name)
   return (
     <section className="mx-auto py-16 flex flex-col  items-center justify-center">
       <h1 className="text-3xl font-medium text-center">
@@ -26,11 +30,19 @@ const Welcome = () => {
           onChange={(e) => setValue(e.target.value)}
         />
       </form>
-      {value !== "" ? 
-      <button className="bg-yellow-400 px-8 py-4 rounded-full uppercase text-sm transition-all duration-300 hover:bg-yellow-300" onClick={() => dispatch(createUser(value))}>
-        Start ordering
-      </button> : ""
-      }
+      {value !== "" ? (
+        <Link
+          to={"/menu"}
+          className="bg-yellow-400 px-8 py-4 rounded-full uppercase text-sm transition-all duration-300 hover:bg-yellow-300"
+          onClick={() => dispatch(createUser(value))}
+        >
+          {user.name !== ""
+            ? `Continue ordering, ${user.name}`
+            : "Start ordering"}
+        </Link>
+      ) : (
+        ""
+      )}
     </section>
   );
 };

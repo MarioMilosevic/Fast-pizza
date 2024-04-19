@@ -13,7 +13,6 @@ const Menu = () => {
           throw new Error("Failed to fetch data");
         }
         const responseData = await response.json();
-        console.log(responseData);
         const { data } = responseData;
         setPizzas(data);
       } catch (error) {
@@ -24,11 +23,13 @@ const Menu = () => {
   }, []);
 
   return (
+    <main className="w-[750px] mx-auto">
     <ul>
       {pizzas.map((pizza) => (
         <Pizza key={pizza.id} {...pizza} />
       ))}
     </ul>
+      </main>
   );
 };
 
