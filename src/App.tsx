@@ -1,10 +1,12 @@
 import Header from "./components/Header";
 import Welcome from "./components/Welcome";
+import Menu from "./components/Menu";
 function App() {
   return (
     <>
       <Header />
-      <Welcome/>
+      {/* <Welcome /> */}
+      <Menu/>
     </>
   )
 }
