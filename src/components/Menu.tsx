@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { url } from "../utils/constants";
 import { fetchResponse, PizzaItem } from "../utils/types";
+import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaItem[]>([]);
 
@@ -12,8 +13,8 @@ const Menu = () => {
           throw new Error("Failed to fetch data");
         }
         const responseData = await response.json();
-          console.log(responseData);
-          const {data} = responseData
+        console.log(responseData);
+        const { data } = responseData;
         setPizzas(data);
       } catch (error) {
         console.error("Error failed to fetch data");
@@ -22,11 +23,11 @@ const Menu = () => {
     fetchData();
   }, []);
 
-    return <main>
-        {pizzas.map(pizza => {
-            return <div>{ pizza.name}</div>
-      })}
-  </main>;
+  return (
+    <ul>
+          {pizzas.map(pizza => <Pizza key={pizza.id} {...pizza} />) }
+    </ul>
+  );
 };
 
 export default Menu;

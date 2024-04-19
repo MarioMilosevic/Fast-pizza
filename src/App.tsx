@@ -5,8 +5,10 @@ function App() {
   return (
     <>
       <Header />
+      <main className="w-[750px] mx-auto">
       {/* <Welcome /> */}
       <Menu/>
+      </main>
     </>
   )
 }
