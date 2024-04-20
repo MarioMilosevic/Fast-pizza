@@ -1,12 +1,16 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
 import { Link, Outlet } from "react-router-dom";
+import Loading from "./Loading";
 const Header = () => {
   const user = useSelector((state: RootState) => state.user);
+  const loading = useSelector((state: RootState) => state.loading);
   return (
     <>
       <header className="bg-yellow-400 px-5 py-3 flex justify-between items-center">
-        <Link to={"/"} className="tracking-widest">FAST REACT PIZZA CO.</Link>
+        <Link to={"/"} className="tracking-widest">
+          FAST REACT PIZZA CO.
+        </Link>
         <form>
           <input
             type="text"
@@ -15,6 +19,7 @@ const Header = () => {
           />
         </form>
         {user.name !== "" && <div className="uppercase">{user.name}</div>}
+        {loading.value && <Loading />}
       </header>
       <Outlet />
     </>

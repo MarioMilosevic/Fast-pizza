@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../features/userSlice"
-// import counterReducer from "../features/counter/counterSlice";
-// import todosReducer from "../features/todos/todosSlice";
+import userReducer from "../features/userSlice";
+import loadingReducer from "../features/loadingSlice";
 
 export const store = configureStore({
   reducer: {
-    user:userReducer
-    // counter: counterReducer,
-    // todos: todosReducer,
+    user: userReducer,
+    loading: loadingReducer,
   },
 });
 

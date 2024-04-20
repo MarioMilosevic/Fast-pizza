@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { url } from "../utils/constants";
 import { PizzaType } from "../utils/types";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../redux/features/loadingSlice";
 import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaType[]>([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -15,21 +17,22 @@ const Menu = () => {
         const responseData = await response.json();
         const { data } = responseData;
         setPizzas(data);
+        dispatch(setLoading(false));
       } catch (error) {
         console.error("Error failed to fetch data");
       }
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className="w-[750px] mx-auto">
-    <ul>
-      {pizzas.map((pizza) => (
-        <Pizza key={pizza.id} {...pizza} />
-      ))}
-    </ul>
-      </main>
+      <ul>
+        {pizzas.map((pizza) => (
+          <Pizza key={pizza.id} {...pizza} />
+        ))}
+      </ul>
+    </main>
   );
 };
 

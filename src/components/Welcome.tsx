@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createUser } from "../redux/features/userSlice";
+import { setLoading } from "../redux/features/loadingSlice";
 import { useState } from "react";
 import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +14,16 @@ const Welcome = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) {
-      dispatch(createUser(value));
+      buttonHandler();
       navigate("/menu");
     }
+  };
+
+  const buttonHandler = () => {
+    if (!user.name) {
+      dispatch(createUser(value));
+    }
+    dispatch(setLoading(true));
   };
 
   return (
@@ -43,14 +51,12 @@ const Welcome = () => {
           </form>
         </>
       ) : (
-        <Button buttonClickHandler={() => navigate("/menu")}>
+        <Button buttonClickHandler={buttonHandler}>
           Continue ordering, {user.name}
         </Button>
       )}
       {value !== "" && (
-        <Button buttonClickHandler={() => dispatch(createUser(value))}>
-          Start ordering
-        </Button>
+        <Button buttonClickHandler={buttonHandler}>Start ordering</Button>
       )}
     </section>
   );
