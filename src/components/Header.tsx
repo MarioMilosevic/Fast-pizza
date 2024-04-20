@@ -19,11 +19,11 @@ const Header = () => {
             placeholder="Search order #"
           />
         </form>
-        {user.name !== "" && <div className="uppercase">{user.name}</div>}
+        {user.name  !== "" && <div className="uppercase">{user.name}</div>}
       </header>
       {loading.value && <Loading />}
-      <CartStatus/>
       <Outlet />
+      <CartStatus/>
     </>
   );
 };

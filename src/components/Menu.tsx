@@ -6,6 +6,7 @@ import { setLoading } from "../redux/features/loadingSlice";
 import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaType[]>([]);
+  
   // treba mi stejt za cart pica, da ima add da ima delete, ako je duzina ovog carta veca od 0 da se dolje pojavi onaj div
   const dispatch = useDispatch();
   useEffect(() => {

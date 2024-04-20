@@ -51,12 +51,12 @@ const Welcome = () => {
           </form>
         </>
       ) : (
-        <Button buttonClickHandler={buttonHandler}>
+        <Button  size="big" buttonClickHandler={buttonHandler}>
           Continue ordering, {user.name}
         </Button>
       )}
       {value !== "" && (
-        <Button buttonClickHandler={buttonHandler}>Start ordering</Button>
+        <Button size="big" buttonClickHandler={buttonHandler}>Start ordering</Button>
       )}
     </section>
   );
