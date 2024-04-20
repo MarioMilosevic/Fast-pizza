@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
 import { Link, Outlet } from "react-router-dom";
 import Loading from "./Loading";
+import CartStatus from "./CartStatus";
 const Header = () => {
   const user = useSelector((state: RootState) => state.user);
   const loading = useSelector((state: RootState) => state.loading);
@@ -19,8 +20,9 @@ const Header = () => {
           />
         </form>
         {user.name !== "" && <div className="uppercase">{user.name}</div>}
-        {loading.value && <Loading />}
       </header>
+      {loading.value && <Loading />}
+      <CartStatus/>
       <Outlet />
     </>
   );
