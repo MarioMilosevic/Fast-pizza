@@ -2,19 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 type PizzaItem = {
-    id: number;
-    name: string;
-    unitPrice: number;
-    quantity: number;
-}
+  id: number;
+  name: string;
+  unitPrice: number;
+  quantity: number;
+};
 
 export type cartState = {
-  value:PizzaItem[]
+  value: PizzaItem[];
 };
 
 const initialState: cartState = {
-    value: [],
-    // treba mi broj, treba mi ukupnaCijena i trebace mi
+  value: [],
+  // treba mi broj, treba mi ukupnaCijena i trebace mi
 };
 
 export const userSlice = createSlice({
@@ -23,12 +23,15 @@ export const userSlice = createSlice({
   reducers: {
     // createUser: (state, action: PayloadAction<string>) => {
     //   state.name += action.payload;
-      // },
-      addPizza: (state, action: PayloadAction<PizzaItem>) => {
-          state.value.push(action.payload)
-         
-    }
+    // },
+    addPizza: (state, action: PayloadAction<PizzaItem>) => {
+      state.value.push(action.payload);
+    },
+    removePizza: (state, action: PayloadAction<number>) => {
+        const indexToRemove = state.value.findIndex(pizza => pizza.id === action.payload)
+        state.value = state.value.filter((pizza, index) => index !== indexToRemove)
+      },
   },
 });
-export const {addPizza } = userSlice.actions;
+export const { addPizza, removePizza } = userSlice.actions;
 export default userSlice.reducer;

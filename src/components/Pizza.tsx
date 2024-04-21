@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "./Button";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store/store";
-import { addPizza } from "../redux/features/cartSlice";
+import { addPizza, removePizza } from "../redux/features/cartSlice";
 import { pizzaState, PizzaStateType } from "../utils/constants";
 const Pizza = ({
   imageUrl,
@@ -40,13 +40,20 @@ const Pizza = ({
 
   const deleteAllPizzas = () => {
     setPizza(pizzaState);
-    console.log(pizza);
   };
 
-  const updatePizza = (operation: string) => {
+  const removePizzas = () => {
     setPizza((prev) => ({
       ...prev,
-      quantity: prev.quantity + (operation === "+" ? 1 : -1),
+      quantity: prev.quantity - 1,
+    }));
+    dispatch(removePizza(id));
+  };
+
+  const addMorePizzas = () => {
+    setPizza((prev) => ({
+      ...prev,
+      quantity: prev.quantity + 1,
     }));
     const newPizza = {
       id,
@@ -82,17 +89,11 @@ const Pizza = ({
           <div className="flex items-center justify-between">
             {pizza.quantity > 0 && (
               <div className="flex items-center gap-4">
-                <Button
-                  size="small"
-                  buttonClickHandler={() => updatePizza("-")}
-                >
+                <Button size="small" buttonClickHandler={removePizzas}>
                   -
                 </Button>
                 <p>{pizza.quantity}</p>
-                <Button
-                  size="small"
-                  buttonClickHandler={() => updatePizza("+")}
-                >
+                <Button size="small" buttonClickHandler={addMorePizzas}>
                   +
                 </Button>
                 <Button size="small" buttonClickHandler={deleteAllPizzas}>
