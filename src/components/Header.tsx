@@ -6,6 +6,7 @@ import CartStatus from "./CartStatus";
 const Header = () => {
   const user = useSelector((state: RootState) => state.user);
   const loading = useSelector((state: RootState) => state.loading);
+  const cart = useSelector((state: RootState) => state.cart);
   return (
     <>
       <header className="bg-yellow-400 px-5 py-3 flex justify-between items-center">
@@ -19,11 +20,11 @@ const Header = () => {
             placeholder="Search order #"
           />
         </form>
-        {user.name  !== "" && <div className="uppercase">{user.name}</div>}
+        {user.name !== "" && <div className="uppercase">{user.name}</div>}
       </header>
       {loading.value && <Loading />}
       <Outlet />
-      <CartStatus/>
+      {cart.value.length > 0 && <CartStatus />}
     </>
   );
 };

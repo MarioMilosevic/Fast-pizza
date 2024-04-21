@@ -5,8 +5,10 @@ import { useState } from "react";
 import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+
 const Welcome = () => {
   const user = useSelector((state: RootState) => state.user);
+
   const [value, setValue] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,12 +16,12 @@ const Welcome = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) {
-      buttonHandler();
+      goToMenu();
       navigate("/menu");
     }
   };
 
-  const buttonHandler = () => {
+  const goToMenu = () => {
     if (!user.name) {
       dispatch(createUser(value));
     }
@@ -51,12 +53,12 @@ const Welcome = () => {
           </form>
         </>
       ) : (
-        <Button  size="big" buttonClickHandler={buttonHandler}>
+        <Button  size="big" buttonClickHandler={goToMenu}>
           Continue ordering, {user.name}
         </Button>
       )}
       {value !== "" && (
-        <Button size="big" buttonClickHandler={buttonHandler}>Start ordering</Button>
+        <Button size="big" buttonClickHandler={goToMenu}>Start ordering</Button>
       )}
     </section>
   );

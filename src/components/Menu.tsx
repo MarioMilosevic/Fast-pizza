@@ -6,9 +6,8 @@ import { setLoading } from "../redux/features/loadingSlice";
 import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaType[]>([]);
-  
-  // treba mi stejt za cart pica, da ima add da ima delete, ako je duzina ovog carta veca od 0 da se dolje pojavi onaj div
   const dispatch = useDispatch();
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +27,7 @@ const Menu = () => {
   }, [dispatch]);
 
   return (
-    <main className="w-[750px] mx-auto">
+    <main className="w-[750px] mx-auto pb-4">
       <ul>
         {pizzas.map((pizza) => (
           <Pizza key={pizza.id} {...pizza} />
