@@ -2,8 +2,7 @@ import { PizzaType } from "../utils/types";
 import { addNewPizzaFn } from "../utils/helperFunctions";
 import { useState } from "react";
 import Button from "./Button";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/store/store";
+import {  useDispatch } from "react-redux";
 import {
   addPizza,
   removePizza,
@@ -24,7 +23,6 @@ const Pizza = ({
     name,
     quantity: 0,
   });
-  const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
   const addFirstPizza = () => {
@@ -36,7 +34,6 @@ const Pizza = ({
     dispatch(addPizza(newPizza));
   };
 
-  // zovi me kad si napravio logiku oko dodavanja pizza u kart, i kad si napravio rutu za cart (prazan ekran)
 
   const deleteAllPizzas = () => {
     setPizza(pizzaState);

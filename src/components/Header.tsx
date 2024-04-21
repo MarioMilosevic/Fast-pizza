@@ -24,7 +24,7 @@ const Header = () => {
       </header>
       {loading.value && <Loading />}
       <Outlet />
-      {cart.value.length > 0 && <CartStatus />}
+      {cart.cart.length > 0 && <CartStatus />}
     </>
   );
 };

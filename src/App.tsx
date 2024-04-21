@@ -22,3 +22,4 @@ export default App;
 // 1. user
 // 2. loading
 // 2 min po pici i nesto 10 min
+// kada dodjem na order, ali da je request poslat, tj da je success response
