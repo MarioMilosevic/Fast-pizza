@@ -4,6 +4,7 @@ import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";
 import { setLoading } from "../redux/features/loadingSlice";
 import Button from "./Button";
+import ClearButton from "./ClearButton";
 const Cart = () => {
   const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
@@ -55,8 +56,9 @@ const Cart = () => {
           </div>
               </div>
       </div>
-              <div className="py-8">
-                  <Button size="big">Order Pizzas</Button>
+              <div className="flex gap-4">
+              <Button buttonClickHandler={() => console.log("nesto")} size="big">Order Pizzas</Button>
+              <ClearButton clearButtonClickHandler={() => console.log("nesto")}>Clear Cart</ClearButton>
               </div>
     </div>
   );
