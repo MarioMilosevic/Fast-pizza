@@ -1,9 +1,14 @@
 import { PizzaType } from "../utils/types";
+import { addNewPizzaFn } from "../utils/helperFunctions";
 import { useState } from "react";
 import Button from "./Button";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store/store";
-import { addPizza, removePizza } from "../redux/features/cartSlice";
+import {
+  addPizza,
+  removePizza,
+  removeAllPizzas,
+} from "../redux/features/cartSlice";
 import { pizzaState, PizzaStateType } from "../utils/constants";
 const Pizza = ({
   imageUrl,
@@ -27,12 +32,7 @@ const Pizza = ({
       ...prev,
       quantity: 1,
     }));
-    const newPizza = {
-      id,
-      name,
-      unitPrice,
-      quantity: 1,
-    };
+    const newPizza = addNewPizzaFn(id, name, unitPrice);
     dispatch(addPizza(newPizza));
   };
 
@@ -40,6 +40,7 @@ const Pizza = ({
 
   const deleteAllPizzas = () => {
     setPizza(pizzaState);
+    dispatch(removeAllPizzas(id));
   };
 
   const removePizzas = () => {
@@ -55,12 +56,7 @@ const Pizza = ({
       ...prev,
       quantity: prev.quantity + 1,
     }));
-    const newPizza = {
-      id,
-      name,
-      unitPrice,
-      quantity: 1,
-    };
+    const newPizza = addNewPizzaFn(id, name, unitPrice);
     dispatch(addPizza(newPizza));
   };
 

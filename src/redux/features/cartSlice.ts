@@ -28,10 +28,17 @@ export const userSlice = createSlice({
       state.value.push(action.payload);
     },
     removePizza: (state, action: PayloadAction<number>) => {
-        const indexToRemove = state.value.findIndex(pizza => pizza.id === action.payload)
-        state.value = state.value.filter((pizza, index) => index !== indexToRemove)
-      },
+      const indexToRemove = state.value.findIndex(
+        (pizza) => pizza.id === action.payload
+      );
+      state.value = state.value.filter(
+        (pizza, index) => index !== indexToRemove
+      );
+    },
+    removeAllPizzas: (state, action: PayloadAction<number>) => {
+      state.value = state.value.filter((pizza) => pizza.id !== action.payload);
+    },
   },
 });
-export const { addPizza, removePizza } = userSlice.actions;
+export const { addPizza, removePizza, removeAllPizzas } = userSlice.actions;
 export default userSlice.reducer;
