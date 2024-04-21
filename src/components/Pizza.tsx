@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "./Button";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store/store";
-import { dodajPicu } from "../redux/features/cartSlice";
+import { addPizza } from "../redux/features/cartSlice";
 import { pizzaState, PizzaStateType } from "../utils/constants";
 const Pizza = ({
   imageUrl,
@@ -13,19 +13,27 @@ const Pizza = ({
   unitPrice,
   id,
 }: PizzaType) => {
-  const [pizza, setPizza] = useState<PizzaStateType>(pizzaState);
+  const [pizza, setPizza] = useState<PizzaStateType>({
+    id,
+    unitPrice,
+    name,
+    quantity: 0,
+  });
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
   const addFirstPizza = () => {
     setPizza((prev) => ({
       ...prev,
+      quantity: 1,
+    }));
+    const newPizza = {
       id,
       name,
       unitPrice,
       quantity: 1,
-    }));
-    // dispatch(dodajPicu(pizza));
+    };
+    dispatch(addPizza(newPizza));
   };
 
   // zovi me kad si napravio logiku oko dodavanja pizza u kart, i kad si napravio rutu za cart (prazan ekran)
@@ -40,6 +48,13 @@ const Pizza = ({
       ...prev,
       quantity: prev.quantity + (operation === "+" ? 1 : -1),
     }));
+    const newPizza = {
+      id,
+      name,
+      unitPrice,
+      quantity: 1,
+    };
+    dispatch(addPizza(newPizza));
   };
 
   return (

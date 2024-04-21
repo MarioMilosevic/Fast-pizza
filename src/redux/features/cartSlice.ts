@@ -5,6 +5,7 @@ type PizzaItem = {
     id: number;
     name: string;
     unitPrice: number;
+    quantity: number;
 }
 
 export type cartState = {
@@ -12,7 +13,8 @@ export type cartState = {
 };
 
 const initialState: cartState = {
-  value: [],
+    value: [],
+    // treba mi broj, treba mi ukupnaCijena i trebace mi
 };
 
 export const userSlice = createSlice({
@@ -22,12 +24,11 @@ export const userSlice = createSlice({
     // createUser: (state, action: PayloadAction<string>) => {
     //   state.name += action.payload;
       // },
-      dodajPicu: (state, action: PayloadAction<PizzaItem>) => {
+      addPizza: (state, action: PayloadAction<PizzaItem>) => {
           state.value.push(action.payload)
-          console.log(action.payload)
-          console.log(state.value)
+         
     }
   },
 });
-export const {dodajPicu } = userSlice.actions;
+export const {addPizza } = userSlice.actions;
 export default userSlice.reducer;

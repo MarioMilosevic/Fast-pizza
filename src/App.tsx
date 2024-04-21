@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Welcome from "./components/Welcome";
 import Menu from "./components/Menu";
-
+import Cart from "./components/Cart";
 function App() {
   return (
     <BrowserRouter>
@@ -10,6 +10,7 @@ function App() {
         <Route path="/" element={<Header />}>
           <Route index element={<Welcome />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
       </Routes>
     </BrowserRouter>
