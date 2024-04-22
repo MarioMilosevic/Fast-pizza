@@ -7,7 +7,7 @@ import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaType[]>([]);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {

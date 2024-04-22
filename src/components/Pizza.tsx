@@ -4,9 +4,10 @@ import { useState } from "react";
 import Button from "./Button";
 import {  useDispatch } from "react-redux";
 import {
-  addPizza,
-  removePizza,
-  removeAllPizzas,
+  addFirstItem,
+  removeAllItems,
+  incrementItemQuantity,
+  decrementItemQuantity
 } from "../redux/features/cartSlice";
 import { pizzaState, PizzaStateType } from "../utils/constants";
 const Pizza = ({
@@ -30,14 +31,16 @@ const Pizza = ({
       ...prev,
       quantity: 1,
     }));
+    // OVO DA PITAM
     const newPizza = addNewPizzaFn(id, name, unitPrice);
-    dispatch(addPizza(newPizza));
+    dispatch(addFirstItem(newPizza));
+    // dispatch(addFirstItem(pizza))
   };
 
 
   const deleteAllPizzas = () => {
     setPizza(pizzaState);
-    dispatch(removeAllPizzas(id));
+    dispatch(removeAllItems(id));
   };
 
   const removePizzas = () => {
@@ -45,7 +48,7 @@ const Pizza = ({
       ...prev,
       quantity: prev.quantity - 1,
     }));
-    dispatch(removePizza(id));
+    dispatch(decrementItemQuantity(id));
   };
 
   const addMorePizzas = () => {
@@ -53,8 +56,8 @@ const Pizza = ({
       ...prev,
       quantity: prev.quantity + 1,
     }));
-    const newPizza = addNewPizzaFn(id, name, unitPrice);
-    dispatch(addPizza(newPizza));
+    // const newPizza = addNewPizzaFn(id, name, unitPrice);
+    dispatch(incrementItemQuantity(id));
   };
 
   return (

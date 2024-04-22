@@ -15,26 +15,34 @@ export type cartState = {
 
 const initialState: cartState = {
   cart: [],
-  // treba mi broj, treba mi ukupnaCijena i trebace mi
 };
 
 export const userSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addPizza: (state, action: PayloadAction<PizzaItem>) => {
+    addFirstItem: (state, action: PayloadAction<PizzaItem>) => {
       state.cart.push(action.payload);
-      // nadjem objekat sa tim id-em i incrementujem quantity
     },
-    removePizza: (state, action: PayloadAction<number>) => {
-        const indexToRemove = state.cart.findIndex(
-            (pizza) => pizza.id === action.payload
-        );
-        state.cart = state.cart.filter((pizza, index) => index !== indexToRemove);
-        // nadjem objekat sa tim id-em i decrementujem quantity
+    incrementItemQuantity: (state, action: PayloadAction<number>) => {
+      state.cart = state.cart.map((item) =>
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
     },
-    removeAllPizzas: (state, action: PayloadAction<number>) => {
-        state.cart = state.cart.filter((pizza) => pizza.id !== action.payload);
+    decrementItemQuantity: (state, action: PayloadAction<number>) => {
+      state.cart = state.cart
+        .map((item) =>
+          item.id === action.payload && item.quantity > 0
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0);
+    },
+
+    removeAllItems: (state, action: PayloadAction<number>) => {
+      state.cart = state.cart.filter((pizza) => pizza.id !== action.payload);
     },
   },
 });
@@ -44,5 +52,10 @@ export const getTotalCartPrice = (state: RootState) =>
     0
   );
 
-export const { addPizza, removePizza, removeAllPizzas } = userSlice.actions;
+export const {
+  addFirstItem,
+  incrementItemQuantity,
+  removeAllItems,
+  decrementItemQuantity,
+} = userSlice.actions;
 export default userSlice.reducer;
