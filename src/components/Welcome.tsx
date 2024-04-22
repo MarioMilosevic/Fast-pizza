@@ -26,6 +26,7 @@ const Welcome = () => {
       dispatch(createUser(value));
     }
     dispatch(setLoading(true));
+    navigate("/menu");
   };
 
   return (
@@ -53,12 +54,14 @@ const Welcome = () => {
           </form>
         </>
       ) : (
-        <Button  size="big" buttonClickHandler={goToMenu}>
+        <Button size="big" buttonClickHandler={goToMenu}>
           Continue ordering, {user.name}
         </Button>
       )}
       {value !== "" && (
-        <Button size="big" buttonClickHandler={goToMenu}>Start ordering</Button>
+        <Button size="big" buttonClickHandler={goToMenu}>
+          Start ordering
+        </Button>
       )}
     </section>
   );

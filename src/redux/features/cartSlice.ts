@@ -24,6 +24,7 @@ export const userSlice = createSlice({
     addFirstItem: (state, action: PayloadAction<PizzaItem>) => {
       state.cart.push(action.payload);
     },
+
     incrementItemQuantity: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.map((item) =>
         item.id === action.payload
@@ -46,11 +47,15 @@ export const userSlice = createSlice({
     },
   },
 });
+
 export const getTotalCartPrice = (state: RootState) =>
   state.cart.cart.reduce(
     (acc, curr) => acc + curr.unitPrice * curr.quantity,
     0
   );
+
+// export const findItem = (state: RootState, action: PayloadAction<number>) =>
+//   state.cart.cart.find((item) => item.id === action.payload);
 
 export const {
   addFirstItem,

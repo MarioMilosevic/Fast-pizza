@@ -1,15 +1,14 @@
 import { PizzaType } from "../utils/types";
 import { addNewPizzaFn } from "../utils/helperFunctions";
-import { useState } from "react";
 import Button from "./Button";
-import {  useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addFirstItem,
   removeAllItems,
   incrementItemQuantity,
-  decrementItemQuantity
+  decrementItemQuantity,
 } from "../redux/features/cartSlice";
-import { pizzaState, PizzaStateType } from "../utils/constants";
+import { RootState } from "../redux/store/store";
 const Pizza = ({
   imageUrl,
   name,
@@ -18,46 +17,14 @@ const Pizza = ({
   unitPrice,
   id,
 }: PizzaType) => {
-  const [pizza, setPizza] = useState<PizzaStateType>({
-    id,
-    unitPrice,
-    name,
-    quantity: 0,
-  });
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const dispatch = useDispatch();
 
+  const { quantity } = cart.find((item) => item.id === id) || { quantity: 0 };
+
   const addFirstPizza = () => {
-    setPizza((prev) => ({
-      ...prev,
-      quantity: 1,
-    }));
-    // OVO DA PITAM
     const newPizza = addNewPizzaFn(id, name, unitPrice);
     dispatch(addFirstItem(newPizza));
-    // dispatch(addFirstItem(pizza))
-  };
-
-
-  const deleteAllPizzas = () => {
-    setPizza(pizzaState);
-    dispatch(removeAllItems(id));
-  };
-
-  const removePizzas = () => {
-    setPizza((prev) => ({
-      ...prev,
-      quantity: prev.quantity - 1,
-    }));
-    dispatch(decrementItemQuantity(id));
-  };
-
-  const addMorePizzas = () => {
-    setPizza((prev) => ({
-      ...prev,
-      quantity: prev.quantity + 1,
-    }));
-    // const newPizza = addNewPizzaFn(id, name, unitPrice);
-    dispatch(incrementItemQuantity(id));
   };
 
   return (
@@ -83,16 +50,25 @@ const Pizza = ({
           </div>
 
           <div className="flex items-center justify-between">
-            {pizza.quantity > 0 && (
+            {quantity > 0 && (
               <div className="flex items-center gap-4">
-                <Button size="small" buttonClickHandler={removePizzas}>
+                <Button
+                  size="small"
+                  buttonClickHandler={() => dispatch(decrementItemQuantity(id))}
+                >
                   -
                 </Button>
-                <p>{pizza.quantity}</p>
-                <Button size="small" buttonClickHandler={addMorePizzas}>
+                <p>{quantity}</p>
+                <Button
+                  size="small"
+                  buttonClickHandler={() => dispatch(incrementItemQuantity(id))}
+                >
                   +
                 </Button>
-                <Button size="small" buttonClickHandler={deleteAllPizzas}>
+                <Button
+                  size="small"
+                  buttonClickHandler={() => dispatch(removeAllItems(id))}
+                >
                   Delete
                 </Button>
               </div>
@@ -101,7 +77,7 @@ const Pizza = ({
               {soldOut ? "SOLD OUT" : `€${unitPrice.toFixed(2)}`}
             </p>
 
-            {!soldOut && pizza.quantity === 0 && (
+            {!soldOut && !quantity && (
               <Button buttonClickHandler={addFirstPizza} size="small">
                 Add to Cart
               </Button>
