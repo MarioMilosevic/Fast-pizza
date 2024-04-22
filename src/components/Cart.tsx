@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";
 import { setLoading } from "../redux/features/loadingSlice";
+import { clearCart } from "../redux/features/cartSlice";
 import Button from "./Button";
 import ClearButton from "./ClearButton";
 import CartItem from "./CartItem";
@@ -39,10 +40,10 @@ const Cart = () => {
           ))}
 
           <div className="flex gap-4">
-            <Button buttonClickHandler={() => console.log("nesto")} size="big">
+            <Button buttonClickHandler={() => navigate("/order/new")} size="big">
               Order Pizzas
             </Button>
-            <ClearButton clearButtonClickHandler={() => console.log("nesto")}>
+            <ClearButton clearButtonClickHandler={() => dispatch(clearCart())}>
               Clear Cart
             </ClearButton>
           </div>

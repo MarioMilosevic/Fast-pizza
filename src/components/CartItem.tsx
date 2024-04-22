@@ -2,7 +2,7 @@ import Button from "./Button";
 import {
   removeAllItems,
   incrementItemQuantity,
-  decrementItemQuantity,
+    decrementItemQuantity,
 } from "../redux/features/cartSlice";
 import { useDispatch } from "react-redux";
 type CartItemProps = {

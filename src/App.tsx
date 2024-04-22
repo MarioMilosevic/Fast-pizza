@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Welcome from "./components/Welcome";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
+import Order from "./components/Order";
 function App() {
   return (
     <BrowserRouter>
@@ -11,6 +12,7 @@ function App() {
           <Route index element={<Welcome />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/order/new" element={<Order />} />
         </Route>
       </Routes>
     </BrowserRouter>
