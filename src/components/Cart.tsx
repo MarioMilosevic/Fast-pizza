@@ -6,14 +6,13 @@ import { setLoading } from "../redux/features/loadingSlice";
 import Button from "./Button";
 import ClearButton from "./ClearButton";
 import CartItem from "./CartItem";
+
 const Cart = () => {
   const user = useSelector((state: RootState) => state.user);
 
   const { cart } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  console.log(cart);
 
   const goToMenu = () => {
     navigate("/menu");
@@ -29,21 +28,27 @@ const Cart = () => {
         <GoArrowLeft />
         <a>Back to menu</a>
       </div>
-      <div className="py-4 font-medium text-lg">
-        Your cart, <span className="capitalize">{user.name}</span>
-      </div>
-      {cart.map((item) => (
-        <CartItem key={item.id} {...item} />
-      ))}
+      {cart.length > 0 && (
+        <>
+          <div className="py-4 font-medium text-lg">
+            Your cart, <span className="capitalize">{user.name}</span>
+          </div>
 
-      <div className="flex gap-4">
-        <Button buttonClickHandler={() => console.log("nesto")} size="big">
-          Order Pizzas
-        </Button>
-        <ClearButton clearButtonClickHandler={() => console.log("nesto")}>
-          Clear Cart
-        </ClearButton>
-      </div>
+          {cart.map((item) => (
+            <CartItem key={item.id} {...item} />
+          ))}
+
+          <div className="flex gap-4">
+            <Button buttonClickHandler={() => console.log("nesto")} size="big">
+              Order Pizzas
+            </Button>
+            <ClearButton clearButtonClickHandler={() => console.log("nesto")}>
+              Clear Cart
+            </ClearButton>
+          </div>
+        </>
+      )}
+      {cart.length === 0 && <p className="font-semibold pt-4">Your cart is still empty. Start adding some pizzas 😃</p>}
     </div>
   );
 };

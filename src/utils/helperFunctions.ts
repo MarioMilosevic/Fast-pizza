@@ -9,7 +9,3 @@ export const addNewPizzaFn = (
   const newPizza: NewPizzaType = { id, name, unitPrice, quantity };
   return newPizza;
 };
-
-// export const findItem = (arr, id: string) => {
-  
-// }

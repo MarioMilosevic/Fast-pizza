@@ -54,9 +54,6 @@ export const getTotalCartPrice = (state: RootState) =>
     0
   );
 
-// export const findItem = (state: RootState, action: PayloadAction<number>) =>
-//   state.cart.cart.find((item) => item.id === action.payload);
-
 export const {
   addFirstItem,
   incrementItemQuantity,
