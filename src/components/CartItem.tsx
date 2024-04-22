@@ -14,7 +14,7 @@ type CartItemProps = {
 const CartItem = ({ name, unitPrice, quantity, id }: CartItemProps) => {
     const dispatch = useDispatch()
   return (
-    <article className="flex text-sm justify-between items-center pb-2 border border-b-stone-300">
+    <article className="flex text-sm justify-between items-center pb-2 border-b border-b-stone-300">
           <span>{quantity} x {name }</span>
       <div className="flex items-center gap-4">
               <span className="font-semibold">€{ unitPrice}</span>
