@@ -18,7 +18,7 @@ const Order = () => {
   const totalSum = useSelector(getTotalCartPrice);
   const price = isClicked ? totalSum + 0.05 * totalSum : totalSum;
   const user = useSelector((state: RootState) => state.user);
-  
+
   const form = useForm<FormValues>({
     defaultValues: {
       userName: user.name,
@@ -26,11 +26,16 @@ const Order = () => {
       phoneNumber: user.phoneNumber,
     },
   });
-  const { register, control, handleSubmit } = form;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = form;
 
-  const onSubmit = (data:FormValues) => {
-    console.log(data)
-  }
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
 
   const getPosition = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -40,25 +45,47 @@ const Order = () => {
   return (
     <div className="w-[750px] mx-auto py-8 flex flex-col gap-4">
       <h2 className="font-semibold text-lg">Ready to order? Let's go!</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
           <label htmlFor={"First Name"}>First Name</label>
           <input
             id={"First Name"}
             type="text"
-            {...register("userName")}
+            {...register("userName", {
+              required: {
+                value: true,
+                message: "Username is required",
+              },
+            })}
             className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
           />
+          <p className="text-red-500 absolute left-48">
+            {errors.userName?.message}
+          </p>
         </div>
 
-        <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
+        <div className="relative border-b border-b-stone-200 flex items-center justify-between py-1">
           <label htmlFor={"Phone number"}>{"Phone number"}</label>
           <input
             id={"Phone number"}
             type="text"
-            {...register("phoneNumber")}
+            {...register("phoneNumber", {
+              required: {
+                value: true,
+                message: "Phone number is required",
+              },
+              validate: (fieldValue) => {
+                if (!/^\d+$/.test(fieldValue)) {
+                  return "Phone number must contain only numbers";
+                }
+                return true;
+              },
+            })}
             className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
           />
+          <p className=" text-red-500 absolute left-48">
+            {errors.phoneNumber?.message}
+          </p>
         </div>
 
         <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
@@ -66,9 +93,17 @@ const Order = () => {
           <input
             id={"Address"}
             type="text"
-            {...register("address")}
+            {...register("address", {
+              required: {
+                value: true,
+                message: "Address is required",
+              },
+            })}
             className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
           />
+          <p className="text-red-500 absolute left-48">
+            {errors.address?.message}
+          </p>
           <div className="absolute right-5">
             <Button
               buttonClickHandler={(
