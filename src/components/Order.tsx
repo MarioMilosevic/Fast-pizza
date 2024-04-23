@@ -42,7 +42,6 @@ const Order = () => {
 
   const onSubmit = (data: FormValues) => {
     const { userName, address, phoneNumber } = data;
-
     const dataToSend = {
       customer: userName,
       phone: phoneNumber,
@@ -51,8 +50,6 @@ const Order = () => {
       position: "",
       cart,
     };
-    console.log(dataToSend)
-
     sendData(dataToSend);
   };
 
