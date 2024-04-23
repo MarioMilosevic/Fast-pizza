@@ -9,6 +9,3 @@ export const addNewPizzaFn = (
   const newPizza: NewPizzaType = { id, name, unitPrice, quantity };
   return newPizza;
 };
-
-// const mario = navigator.geolocation
-// console.log(mario)

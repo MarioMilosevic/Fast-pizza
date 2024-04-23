@@ -25,3 +25,7 @@ export default App;
 // 2. loading
 // 2 min po pici i nesto 10 min
 // kada dodjem na order, ali da je request poslat, tj da je success response
+
+// za submitanje forme React hook forms prvo ovo 
+// pa zovi pa cemo kasnije Zood ///////////////////////////////////
+// za validaciju inputa Zod pa onda ovo

@@ -1,19 +1,85 @@
-import OrderInput from "./OrderInput";
+// import OrderInput from "./OrderInput";
 import Button from "./Button";
 import { useSelector } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { useState } from "react";
+import { DevTool } from "@hookform/devtools";
+import { RootState } from "../redux/store/store";
+import { useForm } from "react-hook-form";
+
+type FormValues = {
+  userName: string;
+  address: string;
+  phoneNumber: string;
+};
+
 const Order = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
-  const priorityPrice = isClicked ? totalSum + 0.05 * totalSum : totalSum;
+  const price = isClicked ? totalSum + 0.05 * totalSum : totalSum;
+  const user = useSelector((state: RootState) => state.user);
+  
+  const form = useForm<FormValues>({
+    defaultValues: {
+      userName: user.name,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+    },
+  });
+  const { register, control, handleSubmit } = form;
+
+  const onSubmit = (data:FormValues) => {
+    console.log(data)
+  }
+
+  const getPosition = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log("treba da nadje pozicijiu");
+  };
+
   return (
     <div className="w-[750px] mx-auto py-8 flex flex-col gap-4">
       <h2 className="font-semibold text-lg">Ready to order? Let's go!</h2>
-      <form>
-        <OrderInput info="First Name" />
-        <OrderInput info="Phone number"  />
-        <OrderInput info="Address"  />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
+          <label htmlFor={"First Name"}>First Name</label>
+          <input
+            id={"First Name"}
+            type="text"
+            {...register("userName")}
+            className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
+          />
+        </div>
+
+        <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
+          <label htmlFor={"Phone number"}>{"Phone number"}</label>
+          <input
+            id={"Phone number"}
+            type="text"
+            {...register("phoneNumber")}
+            className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
+          />
+        </div>
+
+        <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
+          <label htmlFor={"Address"}>{"Address"}</label>
+          <input
+            id={"Address"}
+            type="text"
+            {...register("address")}
+            className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
+          />
+          <div className="absolute right-5">
+            <Button
+              buttonClickHandler={(
+                e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+              ) => getPosition(e)}
+              size="small"
+            >
+              Get position
+            </Button>
+          </div>
+        </div>
         <div className="flex gap-4 py-4">
           <input
             type="checkbox"
@@ -30,11 +96,10 @@ const Order = () => {
           buttonClickHandler={() => console.log("treba da podje nedje")}
           size="big"
         >
-          <span className="font-medium">
-            Order now for €{priorityPrice.toFixed(2)}
-          </span>
+          <span className="font-medium">Order now for €{price.toFixed(2)}</span>
         </Button>
       </form>
+      <DevTool control={control} />
     </div>
   );
 };
