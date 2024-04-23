@@ -3,7 +3,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
 type PizzaItem = {
-  id: number;
+  pizzaId: number;
   name: string;
   unitPrice: number;
   quantity: number;
@@ -27,7 +27,7 @@ export const userSlice = createSlice({
     },
     incrementItemQuantity: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.map((item) =>
-        item.id === action.payload
+        item.pizzaId === action.payload
           ? { ...item, quantity: item.quantity + 1, totalPrice:item.totalPrice + item.unitPrice }
           : item
       );
@@ -35,7 +35,7 @@ export const userSlice = createSlice({
     decrementItemQuantity: (state, action: PayloadAction<number>) => {
       state.cart = state.cart
         .map((item) =>
-          item.id === action.payload && item.quantity > 0
+          item.pizzaId === action.payload && item.quantity > 0
             ? { ...item, quantity: item.quantity - 1, totalPrice:item.totalPrice - item.unitPrice }
             : item
         )
@@ -43,7 +43,7 @@ export const userSlice = createSlice({
     },
 
     removeAllItems: (state, action: PayloadAction<number>) => {
-      state.cart = state.cart.filter((pizza) => pizza.id !== action.payload);
+      state.cart = state.cart.filter((pizza) => pizza.pizzaId !== action.payload);
     },
     clearCart: (state) => {
       state.cart = [];

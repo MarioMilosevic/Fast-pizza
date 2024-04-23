@@ -1,8 +1,5 @@
 // https://react-fast-pizza-api.onrender.com/api/order
 
-
-
-
 export const sendData = async (data) => {
   try {
     const response = await fetch(

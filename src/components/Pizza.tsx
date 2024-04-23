@@ -20,10 +20,7 @@ const Pizza = ({
   const cart = useSelector((state: RootState) => state.cart.cart);
   const dispatch = useDispatch();
 
-  const { quantity } = cart.find((item) => item.id === id) || { quantity: 0 };
-  // console.log(quantity)
-  // const totalPrice = quantity * unitPrice
-  // console.log("cijena", totalPrice)
+  const { quantity } = cart.find((item) => item.pizzaId === id) || { quantity: 0 };
 
   const addFirstPizza = () => {
     const newPizza = addNewPizzaFn(id, name, unitPrice);

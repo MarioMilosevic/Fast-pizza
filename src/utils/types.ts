@@ -13,7 +13,7 @@ export type fetchResponse = {
 };
 
 export type NewPizzaType = {
-  id: number;
+  pizzaId: number;
   name: string;
   unitPrice: number;
   quantity: number;

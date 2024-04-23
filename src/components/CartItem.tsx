@@ -9,9 +9,9 @@ type CartItemProps = {
   name: string;
   unitPrice: number;
   quantity: number;
-  id: number;
+  pizzaId: number;
 };
-const CartItem = ({ name, unitPrice, quantity, id }: CartItemProps) => {
+const CartItem = ({ name, unitPrice, quantity, pizzaId }: CartItemProps) => {
   const dispatch = useDispatch();
   return (
     <article className="flex text-sm justify-between items-center pb-2 border-b border-b-stone-300">
@@ -23,20 +23,20 @@ const CartItem = ({ name, unitPrice, quantity, id }: CartItemProps) => {
         <div className="flex items-center  gap-4">
           <Button
             size="small"
-            buttonClickHandler={() => dispatch(decrementItemQuantity(id))}
+            buttonClickHandler={() => dispatch(decrementItemQuantity(pizzaId))}
           >
             -
           </Button>
           <span className="font-semibold">{quantity}</span>
           <Button
             size="small"
-            buttonClickHandler={() => dispatch(incrementItemQuantity(id))}
+            buttonClickHandler={() => dispatch(incrementItemQuantity(pizzaId))}
           >
             +
           </Button>
           <Button
             size="small"
-            buttonClickHandler={() => dispatch(removeAllItems(id))}
+            buttonClickHandler={() => dispatch(removeAllItems(pizzaId))}
           >
             Delete
           </Button>

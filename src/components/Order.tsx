@@ -18,15 +18,14 @@ const Order = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
   const user = useSelector((state: RootState) => state.user);
-  const cart = useSelector((state: RootState) => state.cart)
-  console.log(cart)
+  const {cart} = useSelector((state: RootState) => state.cart);
+  console.log(cart);
 
-    const priorityExpense = isClicked ? totalSum * 0.05 : 0;
+  const priorityExpense = isClicked ? totalSum * 0.05 : 0;
   const finalPrice = totalSum + priorityExpense;
-  const currentDate = new Date().toISOString()
-  console.log(currentDate)
+  const currentDate = new Date().toISOString();
+  console.log(currentDate);
 
-  
   const form = useForm<FormValues>({
     defaultValues: {
       userName: user.name,
@@ -42,24 +41,19 @@ const Order = () => {
   } = form;
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
-    const {userName, address, phoneNumber} = data
+    const { userName, address, phoneNumber } = data;
+
     const dataToSend = {
-      status: "success",
-      data: {
-        address,
-        customer: userName,
-        phone: phoneNumber,
-        position: "",
-        cart,
-        //  createdAt: currentDate,
-        // orderPrice: totalSum,
-         priority: isClicked,
-        //  priorityPrice:priorityExpense, 
-        // status :"preparing"
-      },
+      customer: userName,
+      phone: phoneNumber,
+      address,
+      priority: isClicked,
+      position: "",
+      cart,
     };
-    // sendData(data)
+    console.log(dataToSend)
+
+    sendData(dataToSend);
   };
 
   const getPosition = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -156,7 +150,9 @@ const Order = () => {
           buttonClickHandler={() => console.log("treba da podje nedje")}
           size="big"
         >
-          <span className="font-medium">Order now for €{finalPrice.toFixed(2)}</span>
+          <span className="font-medium">
+            Order now for €{finalPrice.toFixed(2)}
+          </span>
         </Button>
       </form>
       <DevTool control={control} />
@@ -165,3 +161,8 @@ const Order = () => {
 };
 
 export default Order;
+
+//  createdAt: currentDate,
+// orderPrice: totalSum,
+//  priorityPrice:priorityExpense,
+// status :"preparing"
