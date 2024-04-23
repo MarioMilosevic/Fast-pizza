@@ -17,4 +17,5 @@ export type NewPizzaType = {
   name: string;
   unitPrice: number;
   quantity: number;
+  totalPrice:number
 }

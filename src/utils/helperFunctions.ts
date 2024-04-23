@@ -5,7 +5,8 @@ export const addNewPizzaFn = (
   name: string,
   unitPrice: number,
   quantity = 1
-) => {
-  const newPizza: NewPizzaType = { id, name, unitPrice, quantity };
+): NewPizzaType => {
+  const totalPrice = unitPrice * quantity;
+  const newPizza: NewPizzaType = { id, name, unitPrice, quantity, totalPrice };
   return newPizza;
 };

@@ -7,6 +7,7 @@ type PizzaItem = {
   name: string;
   unitPrice: number;
   quantity: number;
+  totalPrice: number;
 };
 
 export type cartState = {
@@ -24,11 +25,10 @@ export const userSlice = createSlice({
     addFirstItem: (state, action: PayloadAction<PizzaItem>) => {
       state.cart.push(action.payload);
     },
-
     incrementItemQuantity: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.map((item) =>
         item.id === action.payload
-          ? { ...item, quantity: item.quantity + 1 }
+          ? { ...item, quantity: item.quantity + 1, totalPrice:item.totalPrice + item.unitPrice }
           : item
       );
     },
@@ -36,7 +36,7 @@ export const userSlice = createSlice({
       state.cart = state.cart
         .map((item) =>
           item.id === action.payload && item.quantity > 0
-            ? { ...item, quantity: item.quantity - 1 }
+            ? { ...item, quantity: item.quantity - 1, totalPrice:item.totalPrice - item.unitPrice }
             : item
         )
         .filter((item) => item.quantity > 0);
@@ -46,8 +46,8 @@ export const userSlice = createSlice({
       state.cart = state.cart.filter((pizza) => pizza.id !== action.payload);
     },
     clearCart: (state) => {
-      state.cart = []
-    }
+      state.cart = [];
+    },
   },
 });
 
@@ -62,6 +62,6 @@ export const {
   incrementItemQuantity,
   removeAllItems,
   decrementItemQuantity,
-  clearCart
+  clearCart,
 } = userSlice.actions;
 export default userSlice.reducer;

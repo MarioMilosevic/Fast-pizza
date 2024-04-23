@@ -21,12 +21,16 @@ const Pizza = ({
   const dispatch = useDispatch();
 
   const { quantity } = cart.find((item) => item.id === id) || { quantity: 0 };
+  // console.log(quantity)
+  // const totalPrice = quantity * unitPrice
+  // console.log("cijena", totalPrice)
 
   const addFirstPizza = () => {
     const newPizza = addNewPizzaFn(id, name, unitPrice);
+    console.log(newPizza)
     dispatch(addFirstItem(newPizza));
   };
-
+console.log(cart)
   return (
     <li className="py-2 flex justify-between">
       <div className="flex gap-4 w-full">

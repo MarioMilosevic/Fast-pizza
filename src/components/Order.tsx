@@ -6,6 +6,7 @@ import { useState } from "react";
 import { DevTool } from "@hookform/devtools";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
+import { sendData } from "../utils/fetch";
 
 type FormValues = {
   userName: string;
@@ -16,9 +17,16 @@ type FormValues = {
 const Order = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
-  const price = isClicked ? totalSum + 0.05 * totalSum : totalSum;
   const user = useSelector((state: RootState) => state.user);
+  const cart = useSelector((state: RootState) => state.cart)
+  console.log(cart)
 
+    const priorityExpense = isClicked ? totalSum * 0.05 : 0;
+  const finalPrice = totalSum + priorityExpense;
+  const currentDate = new Date().toISOString()
+  console.log(currentDate)
+
+  
   const form = useForm<FormValues>({
     defaultValues: {
       userName: user.name,
@@ -35,6 +43,23 @@ const Order = () => {
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
+    const {userName, address, phoneNumber} = data
+    const dataToSend = {
+      status: "success",
+      data: {
+        address,
+        customer: userName,
+        phone: phoneNumber,
+        position: "",
+        cart,
+        //  createdAt: currentDate,
+        // orderPrice: totalSum,
+         priority: isClicked,
+        //  priorityPrice:priorityExpense, 
+        // status :"preparing"
+      },
+    };
+    // sendData(data)
   };
 
   const getPosition = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -131,7 +156,7 @@ const Order = () => {
           buttonClickHandler={() => console.log("treba da podje nedje")}
           size="big"
         >
-          <span className="font-medium">Order now for €{price.toFixed(2)}</span>
+          <span className="font-medium">Order now for €{finalPrice.toFixed(2)}</span>
         </Button>
       </form>
       <DevTool control={control} />
