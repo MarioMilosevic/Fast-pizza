@@ -14,7 +14,7 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order/new" element={<Order />} />
-          <Route path="/order/mario" element={<OrderStatus />} />
+          <Route path="/order/:orderId" element={<OrderStatus />} />
         </Route>
       </Routes>
     </BrowserRouter>
