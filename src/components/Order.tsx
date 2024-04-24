@@ -1,10 +1,9 @@
-// import OrderInput from "./OrderInput";
 import Button from "./Button";
 import { useSelector } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { useState } from "react";
 import { DevTool } from "@hookform/devtools";
-import { z } from "zod"
+import { z } from "zod";
 import { phoneRegex } from "../utils/constants";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
@@ -12,30 +11,23 @@ import { sendData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  userName: z.string(),
-  address: z.string(),
-  phoneNumber: z.string().regex(phoneRegex, "Invalid Number")
-})
+  userName: z.string().min(3, "First name must contain at least 3 character(s)"),
+  address: z.string().min(10, "Address must contain at least 10 character(s)"),
+  phoneNumber: z.string().regex(phoneRegex, "Invalid Number"),
+});
 
-type FormValues = z.infer<typeof schema>
-
-// type FormValues = {
-//   userName: string;
-//   address: string;
-//   phoneNumber: string;
-// };
+type FormValues = z.infer<typeof schema>;
 
 const Order = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
   const user = useSelector((state: RootState) => state.user);
-  const {cart} = useSelector((state: RootState) => state.cart);
-  console.log(cart);
+  const { cart } = useSelector((state: RootState) => state.cart);
 
   const priorityExpense = isClicked ? totalSum * 0.05 : 0;
   const finalPrice = totalSum + priorityExpense;
-  const currentDate = new Date().toISOString();
-  console.log(currentDate);
+  // const currentDate = new Date().toISOString();
+  // console.log(currentDate);
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -43,7 +35,7 @@ const Order = () => {
       address: user.address,
       phoneNumber: user.phoneNumber,
     },
-    resolver: zodResolver(schema)
+    resolver: zodResolver(schema),
   });
   const {
     register,
@@ -75,7 +67,7 @@ const Order = () => {
     <div className="w-[750px] mx-auto py-8 flex flex-col gap-4">
       <h2 className="font-semibold text-lg">Ready to order? Let's go!</h2>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
+        <div className="border-b border-b-stone-200 flex items-center justify-between py-1">
           <label htmlFor={"First Name"}>First Name</label>
           <input
             id={"First Name"}
@@ -88,12 +80,10 @@ const Order = () => {
             })}
             className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
           />
-          <p className="text-red-500 absolute left-48">
-            {errors.userName?.message}
-          </p>
         </div>
+        <p className="text-red-500 text-sm py-1">{errors.userName?.message}</p>
 
-        <div className="relative border-b border-b-stone-200 flex items-center justify-between py-1">
+        <div className="border-b border-b-stone-200 flex items-center justify-between py-1">
           <label htmlFor={"Phone number"}>{"Phone number"}</label>
           <input
             id={"Phone number"}
@@ -112,10 +102,8 @@ const Order = () => {
             })}
             className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
           />
-          <p className=" text-red-500 absolute left-48">
-            {errors.phoneNumber?.message}
-          </p>
         </div>
+        <p className=" text-red-500 text-sm py-1">{errors.phoneNumber?.message}</p>
 
         <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
           <label htmlFor={"Address"}>{"Address"}</label>
@@ -130,9 +118,7 @@ const Order = () => {
             })}
             className="rounded-full capitalize p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-[600px]"
           />
-          <p className="text-red-500 absolute left-48">
-            {errors.address?.message}
-          </p>
+
           <div className="absolute right-5">
             <Button
               buttonClickHandler={(
@@ -144,6 +130,7 @@ const Order = () => {
             </Button>
           </div>
         </div>
+        <p className="text-red-500 text-sm py-1">{errors.address?.message}</p>
         <div className="flex gap-4 py-4">
           <input
             type="checkbox"
@@ -171,4 +158,3 @@ const Order = () => {
 };
 
 export default Order;
-
