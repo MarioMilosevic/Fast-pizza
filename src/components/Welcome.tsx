@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import {changeUserProperty } from "../redux/features/userSlice";
+import { changeUserName } from "../redux/features/userSlice";
 import { setLoading } from "../redux/features/loadingSlice";
 import { useState } from "react";
 import { RootState } from "../redux/store/store";
@@ -23,7 +23,7 @@ const Welcome = () => {
 
   const goToMenu = () => {
     if (!user.name) {
-      dispatch(changeUserProperty({key:"name", value: value }));
+      dispatch(changeUserName(value));
     }
     dispatch(setLoading(true));
     navigate("/menu");

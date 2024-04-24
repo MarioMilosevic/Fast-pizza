@@ -8,6 +8,7 @@ type PizzaItem = {
   unitPrice: number;
   quantity: number;
   totalPrice: number;
+  priority: boolean;
 };
 
 export type cartState = {
