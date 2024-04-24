@@ -10,7 +10,6 @@ import CartItem from "./CartItem";
 
 const Cart = () => {
   const user = useSelector((state: RootState) => state.user);
-
   const { cart } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();

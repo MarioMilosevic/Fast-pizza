@@ -4,15 +4,26 @@ import { useSelector } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { useState } from "react";
 import { DevTool } from "@hookform/devtools";
+import { z } from "zod"
+import { phoneRegex } from "../utils/constants";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
 import { sendData } from "../utils/fetch";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type FormValues = {
-  userName: string;
-  address: string;
-  phoneNumber: string;
-};
+const schema = z.object({
+  userName: z.string(),
+  address: z.string(),
+  phoneNumber: z.string().regex(phoneRegex, "Invalid Number")
+})
+
+type FormValues = z.infer<typeof schema>
+
+// type FormValues = {
+//   userName: string;
+//   address: string;
+//   phoneNumber: string;
+// };
 
 const Order = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -32,6 +43,7 @@ const Order = () => {
       address: user.address,
       phoneNumber: user.phoneNumber,
     },
+    resolver: zodResolver(schema)
   });
   const {
     register,
@@ -51,11 +63,12 @@ const Order = () => {
       cart,
     };
     sendData(dataToSend);
+    // moram id sacuvat
   };
 
   const getPosition = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log("treba da nadje pozicijiu");
+    console.log("treba da nadje poziciju");
   };
 
   return (
@@ -159,7 +172,3 @@ const Order = () => {
 
 export default Order;
 
-//  createdAt: currentDate,
-// orderPrice: totalSum,
-//  priorityPrice:priorityExpense,
-// status :"preparing"

@@ -3,7 +3,7 @@ import { RootState } from "../redux/store/store";
 import { Link, Outlet } from "react-router-dom";
 import Loading from "./Loading";
 import CartStatus from "./CartStatus";
-const Header = () => {
+const SharedLayout = () => {
   const user = useSelector((state: RootState) => state.user);
   const loading = useSelector((state: RootState) => state.loading);
   const cart = useSelector((state: RootState) => state.cart);
@@ -29,4 +29,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default SharedLayout;
