@@ -5,7 +5,7 @@ import { RootState } from "../redux/store/store";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 const CartStatus = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
-  const totalSum =  useSelector(getTotalCartPrice)
+  const totalSum = useSelector(getTotalCartPrice);
 
   return (
     <footer className="fixed uppercase w-full bottom-0 text-sm bg-stone-800 text-stone-100 flex justify-between items-center p-5">
@@ -13,10 +13,10 @@ const CartStatus = () => {
         <span>{cart.length}</span>
         <span>{`€${totalSum.toFixed(2)}`}</span>
       </div>
-      <div className="flex gap-2 items-center">
-        <Link to={"/cart"}>Open Cart</Link>
-        <GoArrowRight />
-      </div>
+        <Link to={"/cart"} className="flex items-center gap-2">
+          Open Cart
+          <GoArrowRight />
+        </Link>
     </footer>
   );
 };

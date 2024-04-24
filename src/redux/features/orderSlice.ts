@@ -7,7 +7,7 @@ type OrderType = {
   cart: PizzaType[];
   createdAt: string;
   customer: string;
-  estimatedDeliver: string;
+  estimatedDelivery: string;
   id: string;
   orderPrice: number;
   phone: string;
@@ -34,6 +34,7 @@ export const orderSlice = createSlice({
     },
   },
 });
+
 
 export const { addOrder } = orderSlice.actions;
 export default orderSlice.reducer;

@@ -5,7 +5,7 @@ import { togglePriority } from "../redux/features/userSlice";
 import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
 import { setLoading } from "../redux/features/loadingSlice";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { phoneRegex } from "../utils/constants";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
@@ -32,10 +32,9 @@ const Order = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
   const orders = useSelector((state: RootState) => state.orders);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const priorityExpense = priority ? totalSum * 0.05 : 0;
   const finalPrice = totalSum + priorityExpense;
-
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -66,9 +65,9 @@ const Order = () => {
         cart,
       };
       const { data } = await sendData(dataToSend);
-      console.log(data)
+      console.log(data);
       dispatch(addOrder(data));
-      navigate(`/order/${data.id}`)
+      navigate(`/order/${data.id}`);
       console.log(orders);
     } catch (error) {
       console.error("Error submitting order", error);

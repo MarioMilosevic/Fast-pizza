@@ -29,7 +29,11 @@ export const userSlice = createSlice({
     incrementItemQuantity: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.map((item) =>
         item.pizzaId === action.payload
-          ? { ...item, quantity: item.quantity + 1, totalPrice:item.totalPrice + item.unitPrice }
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+              totalPrice: item.totalPrice + item.unitPrice,
+            }
           : item
       );
     },
@@ -37,14 +41,20 @@ export const userSlice = createSlice({
       state.cart = state.cart
         .map((item) =>
           item.pizzaId === action.payload && item.quantity > 0
-            ? { ...item, quantity: item.quantity - 1, totalPrice:item.totalPrice - item.unitPrice }
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+                totalPrice: item.totalPrice - item.unitPrice,
+              }
             : item
         )
         .filter((item) => item.quantity > 0);
     },
 
     removeAllItems: (state, action: PayloadAction<number>) => {
-      state.cart = state.cart.filter((pizza) => pizza.pizzaId !== action.payload);
+      state.cart = state.cart.filter(
+        (pizza) => pizza.pizzaId !== action.payload
+      );
     },
     clearCart: (state) => {
       state.cart = [];
