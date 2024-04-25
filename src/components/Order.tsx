@@ -11,9 +11,11 @@ import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addOrder } from "../redux/features/orderSlice";
 import { setLoading } from "../redux/features/globalLoadingSlice";
-import { getAddress } from "../utils/helperFunctions";
+import { getUserLocation } from "../utils/helperFunctions";
+import { useState } from "react";
 
 const Order = () => {
+  const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
   const { name, address, phoneNumber, priority } = useSelector(
     (state: RootState) => state.user
@@ -23,13 +25,11 @@ const Order = () => {
   const navigate = useNavigate();
   const priorityExpense = priority ? totalSum * 0.05 : 0;
   const finalPrice = totalSum + priorityExpense;
-
   const form = useForm<OrderFormValues>({
     defaultValues: {
       userName: name,
       address: address,
       phoneNumber: phoneNumber,
-      priority: priority,
     },
     resolver: zodResolver(orderSchema),
   });
@@ -43,7 +43,8 @@ const Order = () => {
 
   const onSubmit = async (formData: OrderFormValues) => {
     try {
-      const { userName, address, phoneNumber, priority } = formData;
+      setIsOrdered(true);
+      const { userName, address, phoneNumber } = formData;
       const dataToSend = {
         customer: userName,
         phone: phoneNumber,
@@ -65,30 +66,15 @@ const Order = () => {
     dispatch(togglePriority());
   };
 
-  const getUserLocation = async (
+  const handleUserLocation = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            const { latitude, longitude } = position.coords;
-            const { locality, city, countryName } = await getAddress({
-              latitude,
-              longitude,
-            });
-            setValue("address", `${locality}, ${city}, ${countryName}`);
-          } catch (error) {
-            console.error("Error getting user location: ", error);
-          }
-        },
-        (error) => {
-          console.error("Error getting user location: ", error);
-        }
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser");
+    try {
+      const { locality, city, countryName } = await getUserLocation();
+      setValue("address", `${locality}, ${city}, ${countryName}`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -136,7 +122,7 @@ const Order = () => {
           {errors.phoneNumber?.message}
         </p>
 
-        <div className="border-b relative border-b-stone-200 flex items-center justify-between py-1">
+        <div className="border-b relative border-b-stone-120 flex items-center justify-between py-1">
           <label htmlFor={"Address"}>{"Address"}</label>
           <input
             id={"Address"}
@@ -151,7 +137,10 @@ const Order = () => {
           />
 
           <div className="absolute right-5">
-            <Button buttonClickHandler={(e) => getUserLocation(e)} size="small">
+            <Button
+              buttonClickHandler={(e) => handleUserLocation(e)}
+              size="small"
+            >
               Get position
             </Button>
           </div>
@@ -169,11 +158,18 @@ const Order = () => {
             Want to give your order priority?
           </label>
         </div>
-        <Button buttonClickHandler={handleSubmit(onSubmit)} size="big">
+        <button
+          className={`${
+            !isOrdered ? "bg-yellow-400 hover:bg-yellow-300" : "bg-stone-200"
+          } py-4 px-8 mt-8 rounded-full uppercase text-sm transition-all duration-300 `}
+          onClick={handleSubmit(onSubmit)}
+        >
           <span className="font-medium">
-            Order now for €{finalPrice.toFixed(2)}
+            {!isOrdered
+              ? `Order now for €${finalPrice.toFixed(2)}`
+              : `Placing order...`}
           </span>
-        </Button>
+        </button>
       </form>
       <DevTool control={control} />
     </div>

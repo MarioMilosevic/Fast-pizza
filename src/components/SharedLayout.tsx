@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../redux/features/globalLoadingSlice";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Loading from "./Loading";
@@ -12,11 +14,13 @@ const SharedLayout = () => {
   const user = useSelector((state: RootState) => state.user);
   const loading = useSelector((state: RootState) => state.loading);
   const { cart } = useSelector((state: RootState) => state.cart);
-  const form = useForm<SearchFormValue>();
   const navigate = useNavigate();
+  const form = useForm<SearchFormValue>();
+  const dispatch = useDispatch()
   const { register, handleSubmit, resetField } = form;
   const onSubmit = (data: SearchFormValue) => {
     const { search } = data;
+    dispatch(setLoading(true))
     navigate(`/order/${search}`);
     resetField("search");
   };

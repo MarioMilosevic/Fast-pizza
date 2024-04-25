@@ -29,9 +29,6 @@ const OrderStatus = () => {
     fetchData();
   }, [orderId, dispatch]);
 
-
-
-
   return (
     <>
       {order ? (
