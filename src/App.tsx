@@ -5,6 +5,7 @@ import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import Order from "./components/Order";
 import OrderStatus from "./components/OrderStatus";
+import Error from "./components/Error";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/order/new" element={<Order />} />
           <Route path="/order/:orderId" element={<OrderStatus />} />
+          <Route path="*" element={<Error />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -12,18 +12,13 @@ const SharedLayout = () => {
   const user = useSelector((state: RootState) => state.user);
   const loading = useSelector((state: RootState) => state.loading);
   const { cart } = useSelector((state: RootState) => state.cart);
-  const order = useSelector((state: RootState) => state.orders);
   const form = useForm<SearchFormValue>();
   const navigate = useNavigate();
   const { register, handleSubmit } = form;
-  console.log(order);
   const onSubmit = (data: SearchFormValue) => {
     const { search } = data;
     navigate(`/order/${search}`);
-    console.log("form submited", data);
   };
-  // da uzmem input.value i da u orders potrazim taj order sa input.value
-  // ako ga ima da prikazem orderStatus u suprotnom neku error komponentu
 
   return (
     <>
