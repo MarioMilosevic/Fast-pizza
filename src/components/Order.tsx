@@ -4,13 +4,13 @@ import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { togglePriority } from "../redux/features/userSlice";
 import { DevTool } from "@hookform/devtools";
 import { useNavigate } from "react-router-dom";
-import { orderSchema, OrderFormValues} from "../zod/zod";
+import { orderSchema, OrderFormValues } from "../zod/zod";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
 import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addOrder } from "../redux/features/orderSlice";
-
+import { setLoading } from "../redux/features/globalLoadingSlice";
 
 const Order = () => {
   const totalSum = useSelector(getTotalCartPrice);
@@ -54,6 +54,7 @@ const Order = () => {
       // OVO PROVJERIT
       // 6CT4XE
       dispatch(addOrder(data));
+      dispatch(setLoading(true));
       navigate(`/order/${data.id}`);
     } catch (error) {
       console.error("Error submitting order", error);
@@ -152,7 +153,7 @@ const Order = () => {
           </label>
         </div>
         <Button
-          buttonClickHandler={() => console.log("treba da podje nedje")}
+          buttonClickHandler={handleSubmit(onSubmit)}
           size="big"
         >
           <span className="font-medium">

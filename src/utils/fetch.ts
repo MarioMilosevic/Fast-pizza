@@ -16,7 +16,6 @@ export const postData = async (data: DataType) => {
     }
 
     const responseData = await response.json();
-    console.log("Order submitted successfully");
     return responseData;
   } catch (error) {
     console.log("Error submitting order:", error);
@@ -31,7 +30,6 @@ export const fetchOrder = async (id: string | undefined) => {
       throw new Error("Failed to send id order");
     }
     const responseData = await response.json();
-    console.log("Order submitted successfully");
     return responseData;
   } catch (error) {
     console.log("Error submitting order:", error);

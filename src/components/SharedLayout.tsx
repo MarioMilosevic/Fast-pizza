@@ -14,10 +14,11 @@ const SharedLayout = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
   const form = useForm<SearchFormValue>();
   const navigate = useNavigate();
-  const { register, handleSubmit } = form;
+  const { register, handleSubmit, resetField } = form;
   const onSubmit = (data: SearchFormValue) => {
     const { search } = data;
     navigate(`/order/${search}`);
+    resetField("search");
   };
 
   return (
