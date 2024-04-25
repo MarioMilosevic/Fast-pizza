@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store/store";
+
+import { useCartSlice } from "../utils/hooks";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/features/globalLoadingSlice";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -11,9 +11,7 @@ type SearchFormValue = {
   search: string;
 };
 const SharedLayout = () => {
-  const user = useSelector((state: RootState) => state.user);
-  const loading = useSelector((state: RootState) => state.loading);
-  const { cart } = useSelector((state: RootState) => state.cart);
+  const {user, loading, cart} = useCartSlice()
   const navigate = useNavigate();
   const form = useForm<SearchFormValue>();
   const dispatch = useDispatch()
@@ -43,7 +41,7 @@ const SharedLayout = () => {
       </header>
       {loading.value && <Loading />}
       <Outlet />
-      {cart.length > 0 && <CartStatus />}
+      {cart.cart.length > 0 && <CartStatus />}
     </>
   );
 };

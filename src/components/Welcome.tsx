@@ -1,13 +1,13 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useCartSlice } from "../utils/hooks";
 import { changeUserName } from "../redux/features/userSlice";
 import { setLoading } from "../redux/features/globalLoadingSlice";
 import { useState } from "react";
-import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
 const Welcome = () => {
-  const user = useSelector((state: RootState) => state.user);
+  const { user:{name}} = useCartSlice() 
 
   const [value, setValue] = useState<string>("");
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const Welcome = () => {
   };
 
   const goToMenu = () => {
-    if (!user.name) {
+    if (!name) {
       dispatch(changeUserName(value));
     }
     dispatch(setLoading(true));
@@ -38,7 +38,7 @@ const Welcome = () => {
           Straight out of the oven, straight to you
         </span>
       </h1>
-      {!user.name ? (
+      {!name ? (
         <>
           <h3 className="pt-8 pb-4">
             👋 Welcome! Please start by telling us your name:
@@ -55,7 +55,7 @@ const Welcome = () => {
         </>
       ) : (
         <Button size="big" buttonClickHandler={goToMenu}>
-          Continue ordering, {user.name}
+          Continue ordering, {name}
         </Button>
       )}
       {value !== "" && (

@@ -1,14 +1,14 @@
 import { PizzaType } from "../utils/types";
 import { addNewPizzaFn } from "../utils/helperFunctions";
 import Button from "./Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   addFirstItem,
   removeAllItems,
   incrementItemQuantity,
   decrementItemQuantity,
 } from "../redux/features/cartSlice";
-import { RootState } from "../redux/store/store";
+import { useCartSlice } from "../utils/hooks";
 const Pizza = ({
   imageUrl,
   name,
@@ -17,10 +17,10 @@ const Pizza = ({
   unitPrice,
   id,
 }: PizzaType) => {
-  const cart = useSelector((state: RootState) => state.cart.cart);
+  const {cart} = useCartSlice()
   const dispatch = useDispatch();
 
-  const { quantity } = cart.find((item) => item.pizzaId === id) || { quantity: 0 };
+  const { quantity } = cart.cart.find((item) => item.pizzaId === id) || { quantity: 0 };
 
   const addFirstPizza = () => {
     const newPizza = addNewPizzaFn(id, name, unitPrice);

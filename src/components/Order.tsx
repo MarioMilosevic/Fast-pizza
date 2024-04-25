@@ -5,7 +5,6 @@ import { togglePriority } from "../redux/features/userSlice";
 import { DevTool } from "@hookform/devtools";
 import { useNavigate } from "react-router-dom";
 import { orderSchema, OrderFormValues } from "../zod/zod";
-import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
 import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,14 +12,14 @@ import { addOrder } from "../redux/features/orderSlice";
 import { setLoading } from "../redux/features/globalLoadingSlice";
 import { getUserLocation } from "../utils/helperFunctions";
 import { useState } from "react";
+import { useCartSlice } from "../utils/hooks";
 
 const Order = () => {
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
-  const { name, address, phoneNumber, priority } = useSelector(
-    (state: RootState) => state.user
-  );
-  const { cart } = useSelector((state: RootState) => state.cart);
+  const { user: { name, address, phoneNumber, priority
+  }, cart:{cart}} = useCartSlice()
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const priorityExpense = priority ? totalSum * 0.05 : 0;

@@ -1,16 +1,19 @@
 import { GoArrowLeft } from "react-icons/go";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/store/store";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLoading } from "../redux/features/globalLoadingSlice";
 import { clearCart } from "../redux/features/cartSlice";
 import Button from "./Button";
 import ClearButton from "./ClearButton";
 import CartItem from "./CartItem";
+import { useCartSlice } from "../utils/hooks";
 
 const Cart = () => {
-  const user = useSelector((state: RootState) => state.user);
-  const { cart } = useSelector((state: RootState) => state.cart);
+  const {
+    user: { name },
+    cart: { cart },
+  } = useCartSlice();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,7 +34,7 @@ const Cart = () => {
       {cart.length > 0 && (
         <>
           <div className="py-4 font-medium text-lg">
-            Your cart, <span className="capitalize">{user.name}</span>
+            Your cart, <span className="capitalize">{name}</span>
           </div>
 
           {cart.map((item) => (

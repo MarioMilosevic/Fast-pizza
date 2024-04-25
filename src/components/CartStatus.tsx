@@ -1,10 +1,10 @@
 import { GoArrowRight } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store/store";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
+import { useCartSlice } from "../utils/hooks";
 const CartStatus = () => {
-  const { cart } = useSelector((state: RootState) => state.cart);
+  const { cart:{cart} } = useCartSlice()
   const totalSum = useSelector(getTotalCartPrice);
 
   return (
