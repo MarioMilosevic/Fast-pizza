@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
-type PizzaItem = {
+export type PizzaItem = {
   pizzaId: number;
   name: string;
   unitPrice: number;

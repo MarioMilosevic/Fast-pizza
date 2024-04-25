@@ -1,24 +1,5 @@
-import { NewPizzaType } from "./types";
 import { baseUrl } from "./constants";
-export type DataType = {
-  customer: string;
-  phone: string;
-  address: string;
-  priority: boolean;
-  position: string;
-  cart: NewPizzaType[];
-};
-
-export type OrderType = {
-  cart: string[];
-  customer: string;
-  estimatedDelivery: string;
-  id: string;
-  orderPrice: number;
-  priority: false;
-  priorityPrice: number;
-  status:string
-}
+import { DataType } from "./types";
 
 export const postData = async (data: DataType) => {
   try {

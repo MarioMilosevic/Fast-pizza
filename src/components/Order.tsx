@@ -3,25 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { togglePriority } from "../redux/features/userSlice";
 import { DevTool } from "@hookform/devtools";
-import { z } from "zod";
 import { useNavigate } from "react-router-dom";
-import { phoneRegex } from "../utils/constants";
+import { orderSchema, OrderFormValues} from "../zod/zod";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
 import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addOrder } from "../redux/features/orderSlice";
 
-const schema = z.object({
-  userName: z
-    .string()
-    .min(3, "First name must contain at least 3 character(s)"),
-  address: z.string().min(10, "Address must contain at least 10 character(s)"),
-  phoneNumber: z.string().regex(phoneRegex, "Invalid Number"),
-  priority: z.boolean(),
-});
-
-type FormValues = z.infer<typeof schema>;
 
 const Order = () => {
   const totalSum = useSelector(getTotalCartPrice);
@@ -34,14 +23,14 @@ const Order = () => {
   const priorityExpense = priority ? totalSum * 0.05 : 0;
   const finalPrice = totalSum + priorityExpense;
 
-  const form = useForm<FormValues>({
+  const form = useForm<OrderFormValues>({
     defaultValues: {
       userName: name,
       address: address,
       phoneNumber: phoneNumber,
       priority: priority,
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(orderSchema),
   });
   const {
     register,
@@ -50,7 +39,7 @@ const Order = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = async (formData: FormValues) => {
+  const onSubmit = async (formData: OrderFormValues) => {
     try {
       const { userName, address, phoneNumber, priority } = formData;
       const dataToSend = {

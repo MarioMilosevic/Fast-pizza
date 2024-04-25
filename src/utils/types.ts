@@ -20,3 +20,33 @@ export type NewPizzaType = {
   totalPrice: number;
   priority: boolean;
 };
+
+export type OrderCartType = {
+  addIngredients: [];
+  name: string;
+  pizzaId: number;
+  quantity: number;
+  removeIngredients: [];
+  totalPrice: number;
+  unitPrice: number;
+};
+
+export type DataType = {
+  customer: string;
+  phone: string;
+  address: string;
+  priority: boolean;
+  position: string;
+  cart: NewPizzaType[];
+};
+
+export type OrderType = {
+  cart: OrderCartType[];
+  customer: string;
+  estimatedDelivery: string;
+  id: string;
+  orderPrice: number;
+  priority: false;
+  priorityPrice: number;
+  status: string;
+};

@@ -22,3 +22,4 @@ export const phoneRegex = new RegExp(
 );
 
 export const baseUrl = "https://react-fast-pizza-api.onrender.com/api/order";
+export const currentDate = new Date();

@@ -19,13 +19,6 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // changeUserProperty: (
-    //   state,
-    //   action: PayloadAction<{ key: keyof UserState; value: string }>
-    // ) => {
-    //   const { key, value } = action.payload;
-    //   state[key] = value;
-    // },
     changeUserName: (state, action: PayloadAction<string>) => {
       state.name += action.payload
     },
