@@ -5,10 +5,9 @@ import { fetchOrder } from "../utils/fetch";
 import { useState, useEffect } from "react";
 import { OrderType } from "../utils/types";
 import { formatDate, formatToMinutes } from "../utils/dateFunctions";
+import { Link } from "react-router-dom";
 import { clearCart } from "../redux/features/cartSlice";
-import Error from "./Error";
 import { setLoading } from "../redux/features/globalLoadingSlice";
-import ErrorSearch from "./ErrorSearch";
 import { OrderCartType } from "../utils/types";
 
 const OrderStatus = () => {
@@ -30,9 +29,12 @@ const OrderStatus = () => {
     fetchData();
   }, [orderId, dispatch]);
 
+
+
+
   return (
     <>
-      {order && (
+      {order ? (
         <div className="w-[750px] mx-auto py-8">
           <div className="flex justify-between pb-8">
             <h2 className="font-medium text-lg">Order #{orderId} status</h2>
@@ -87,6 +89,17 @@ const OrderStatus = () => {
               To pay on delivery: €{order.orderPrice.toFixed(2)}
             </p>
           </div>
+        </div>
+      ) : (
+        <div className="w-[750px] mx-auto pt-12 flex flex-col items-center gap-8">
+          <span>Something went wrong 😢</span>
+          <span>Couldn't find order #{orderId}</span>
+          <Link
+            to={"/"}
+            className="w-28 bg-yellow-400 text-center text-sm rounded-full px-4 py-2 hover:bg-yellow-300 transition-all duration-300"
+          >
+            Go back
+          </Link>
         </div>
       )}
     </>

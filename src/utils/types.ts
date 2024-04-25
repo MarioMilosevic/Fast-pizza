@@ -50,3 +50,7 @@ export type OrderType = {
   priorityPrice: number;
   status: string;
 };
+export type CoordinatesType = {
+  latitude: number;
+  longitude: number;
+}

@@ -2,6 +2,7 @@ import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { togglePriority } from "../redux/features/userSlice";
+import { useState } from "react";
 import { DevTool } from "@hookform/devtools";
 import { useNavigate } from "react-router-dom";
 import { orderSchema, OrderFormValues } from "../zod/zod";
@@ -11,8 +12,14 @@ import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addOrder } from "../redux/features/orderSlice";
 import { setLoading } from "../redux/features/globalLoadingSlice";
+import { getAddress } from "../utils/helperFunctions";
 
 const Order = () => {
+  const [userLocation, setUserLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>();
+
   const totalSum = useSelector(getTotalCartPrice);
   const { name, address, phoneNumber, priority } = useSelector(
     (state: RootState) => state.user
@@ -51,8 +58,6 @@ const Order = () => {
         cart,
       };
       const { data } = await postData(dataToSend);
-      // OVO PROVJERIT
-      // 6CT4XE
       dispatch(addOrder(data));
       dispatch(setLoading(true));
       navigate(`/order/${data.id}`);
@@ -65,10 +70,33 @@ const Order = () => {
     dispatch(togglePriority());
   };
 
-  const getPosition = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    console.log("treba da nadje poziciju");
-  };
+ const getUserLocation = async (
+   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+ ) => {
+   e.preventDefault();
+   if (navigator.geolocation) {
+     navigator.geolocation.getCurrentPosition(
+       async (position) => {
+         try {
+           const { latitude, longitude } = position.coords;
+           const address = await getAddress({ latitude, longitude });
+           console.log(address);
+           // Do something with the address
+         } catch (error) {
+           console.error("Error getting user location: ", error);
+         }
+       },
+       (error) => {
+         console.error("Error getting user location: ", error);
+       }
+     );
+   } else {
+     console.log("Geolocation is not supported by this browser");
+   }
+ };
+
+
+  console.log(userLocation);
 
   return (
     <div className="w-[750px] mx-auto py-8 flex flex-col gap-4">
@@ -129,12 +157,7 @@ const Order = () => {
           />
 
           <div className="absolute right-5">
-            <Button
-              buttonClickHandler={(
-                e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-              ) => getPosition(e)}
-              size="small"
-            >
+            <Button buttonClickHandler={(e) => getUserLocation(e)} size="small">
               Get position
             </Button>
           </div>
@@ -152,10 +175,7 @@ const Order = () => {
             Want to give your order priority?
           </label>
         </div>
-        <Button
-          buttonClickHandler={handleSubmit(onSubmit)}
-          size="big"
-        >
+        <Button buttonClickHandler={handleSubmit(onSubmit)} size="big">
           <span className="font-medium">
             Order now for €{finalPrice.toFixed(2)}
           </span>
