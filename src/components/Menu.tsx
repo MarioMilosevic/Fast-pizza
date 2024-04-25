@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { url } from "../utils/constants";
 import { PizzaType } from "../utils/types";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../redux/features/loadingSlice";
+import { setLoading } from "../redux/features/globalLoadingSlice";
 import Pizza from "./Pizza";
 const Menu = () => {
   const [pizzas, setPizzas] = useState<PizzaType[]>([]);

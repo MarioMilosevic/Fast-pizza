@@ -4,12 +4,11 @@ import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { togglePriority } from "../redux/features/userSlice";
 import { DevTool } from "@hookform/devtools";
 import { z } from "zod";
-import { setLoading } from "../redux/features/loadingSlice";
 import { useNavigate } from "react-router-dom";
 import { phoneRegex } from "../utils/constants";
 import { RootState } from "../redux/store/store";
 import { useForm } from "react-hook-form";
-import { sendData } from "../utils/fetch";
+import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addOrder } from "../redux/features/orderSlice";
 
@@ -30,7 +29,6 @@ const Order = () => {
     (state: RootState) => state.user
   );
   const { cart } = useSelector((state: RootState) => state.cart);
-  const orders = useSelector((state: RootState) => state.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const priorityExpense = priority ? totalSum * 0.05 : 0;
@@ -54,7 +52,6 @@ const Order = () => {
 
   const onSubmit = async (formData: FormValues) => {
     try {
-      dispatch(setLoading(true));
       const { userName, address, phoneNumber, priority } = formData;
       const dataToSend = {
         customer: userName,
@@ -64,11 +61,11 @@ const Order = () => {
         position: "",
         cart,
       };
-      const { data } = await sendData(dataToSend);
-      console.log(data);
+      const { data } = await postData(dataToSend);
+      // OVO PROVJERIT
+      // 6CT4XE
       dispatch(addOrder(data));
       navigate(`/order/${data.id}`);
-      console.log(orders);
     } catch (error) {
       console.error("Error submitting order", error);
     }

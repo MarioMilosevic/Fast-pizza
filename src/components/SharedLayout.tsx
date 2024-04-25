@@ -6,7 +6,7 @@ import CartStatus from "./CartStatus";
 const SharedLayout = () => {
   const user = useSelector((state: RootState) => state.user);
   const loading = useSelector((state: RootState) => state.loading);
-  const cart = useSelector((state: RootState) => state.cart);
+  const { cart } = useSelector((state: RootState) => state.cart);
   return (
     <>
       <header className="bg-yellow-400 px-5 py-3 flex justify-between items-center">
@@ -24,7 +24,7 @@ const SharedLayout = () => {
       </header>
       {loading.value && <Loading />}
       <Outlet />
-      {cart.cart.length > 0 && <CartStatus />}
+      {cart.length > 0 && <CartStatus />}
     </>
   );
 };

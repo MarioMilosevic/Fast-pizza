@@ -2,7 +2,7 @@ import { GoArrowLeft } from "react-icons/go";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";
-import { setLoading } from "../redux/features/loadingSlice";
+import { setLoading } from "../redux/features/globalLoadingSlice";
 import { clearCart } from "../redux/features/cartSlice";
 import Button from "./Button";
 import ClearButton from "./ClearButton";
@@ -39,7 +39,10 @@ const Cart = () => {
           ))}
 
           <div className="flex gap-4">
-            <Button buttonClickHandler={() => navigate("/order/new")} size="big">
+            <Button
+              buttonClickHandler={() => navigate("/order/new")}
+              size="big"
+            >
               Order Pizzas
             </Button>
             <ClearButton clearButtonClickHandler={() => dispatch(clearCart())}>
@@ -48,7 +51,11 @@ const Cart = () => {
           </div>
         </>
       )}
-      {cart.length === 0 && <p className="font-semibold pt-4">Your cart is still empty. Start adding some pizzas 😃</p>}
+      {cart.length === 0 && (
+        <p className="font-semibold pt-4">
+          Your cart is still empty. Start adding some pizzas 😃
+        </p>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { changeUserName } from "../redux/features/userSlice";
-import { setLoading } from "../redux/features/loadingSlice";
+import { setLoading } from "../redux/features/globalLoadingSlice";
 import { useState } from "react";
 import { RootState } from "../redux/store/store";
 import { useNavigate } from "react-router-dom";

@@ -13,10 +13,12 @@ type PizzaItem = {
 
 export type cartState = {
   cart: PizzaItem[];
+  totalPrice: number;
 };
 
 const initialState: cartState = {
   cart: [],
+  totalPrice: 0,
 };
 
 export const userSlice = createSlice({
@@ -32,7 +34,6 @@ export const userSlice = createSlice({
           ? {
               ...item,
               quantity: item.quantity + 1,
-              totalPrice: item.totalPrice + item.unitPrice,
             }
           : item
       );
@@ -44,7 +45,6 @@ export const userSlice = createSlice({
             ? {
                 ...item,
                 quantity: item.quantity - 1,
-                totalPrice: item.totalPrice - item.unitPrice,
               }
             : item
         )

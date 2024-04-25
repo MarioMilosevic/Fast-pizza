@@ -1,28 +1,39 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
 import { useParams } from "react-router-dom";
-import { setLoading } from "../redux/features/loadingSlice";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
-import { differenceInMinutes, format } from "date-fns";
+import { fetchOrder } from "../utils/fetch";
+import { useState, useEffect } from "react";
+import { OrderType } from "../utils/fetch";
+import { formatDate } from "../utils/dateFunctions";
+
 const OrderStatus = () => {
+  const [order, setOrder] = useState<OrderType>();
   const { cart } = useSelector((state: RootState) => state.cart);
   const { priority } = useSelector((state: RootState) => state.user);
-  const { orders } = useSelector((state: RootState) => state.orders);
-  const { orderId } = useParams();
-  const { estimatedDelivery, createdAt } = orders.find(
-    (item) => item.id === orderId
-  );
-  const minutes = differenceInMinutes(estimatedDelivery, createdAt);
-  const dispatch = useDispatch();
-  dispatch(setLoading(false));
   const totalSum = useSelector(getTotalCartPrice);
+  const { orderId } = useParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data } = await fetchOrder(orderId);
+        setOrder(data);
+        console.log(data)
+      } catch (error) {
+        console.error("Error fetching order:", error);
+      }
+    }
+    fetchData();
+  }, [orderId]);
+
   const priorityExpense = priority ? totalSum * 0.05 : 0;
-  const formatedDate = format(estimatedDelivery, "MMM dd, hh:mm a");
-  console.log(formatedDate);
-  // 2024-04-24T16:23:44.618Z
-  // console.log(cart);
-  // console.log(priority);
+
+  if (!order) {
+  return
+}
+
   return (
     <div className="w-[750px] mx-auto py-8">
       <div className="flex justify-between pb-8">
@@ -39,9 +50,9 @@ const OrderStatus = () => {
         </div>
       </div>
       <div className="bg-stone-200 px-6 py-4 flex justify-between">
-        <span className="font-medium">Only {minutes} minutes left 😀</span>
+        <span className="font-medium">Only kad nabavim minutes left 😀</span>
         <span className="text-xs text-stone-500">
-          (Estimated delivery: {formatedDate})
+          (Estimated delivery: {formatDate(order?.estimatedDelivery)})
         </span>
       </div>
       <ul className="flex flex-col gap-2 py-8">
@@ -55,7 +66,7 @@ const OrderStatus = () => {
                 <span className="font-medium">{item.quantity} x</span>
                 <span>{item.name}</span>
               </div>
-              <span className="font-bold">{`$${item.totalPrice.toFixed(
+              <span className="font-bold">{`€${item.totalPrice.toFixed(
                 2
               )}`}</span>
             </li>
@@ -66,9 +77,11 @@ const OrderStatus = () => {
         <p className="text-sm font-medium">
           Price pizza: €{totalSum.toFixed(2)}
         </p>
-        <p className="text-sm font-medium">
-          Price priority €{priorityExpense.toFixed(2)}
-        </p>
+        {priority && (
+          <p className="text-sm font-medium">
+            Price priority €{priorityExpense.toFixed(2)}
+          </p>
+        )}
         <p className="text-base font-semibold">
           To pay on delivery: €{(totalSum + priorityExpense).toFixed(2)}
         </p>
