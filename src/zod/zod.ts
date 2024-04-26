@@ -8,4 +8,10 @@ export const orderSchema = z.object({
   phoneNumber: z.string().regex(phoneRegex, "Invalid Number"),
 });
 
+export const userNameSchema = z.object({
+  name:z.string().min(3)
+})
+
+export type UserNameFormValues = z.infer<typeof userNameSchema>
+
 export type OrderFormValues = z.infer<typeof orderSchema>;

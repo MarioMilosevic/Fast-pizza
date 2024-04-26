@@ -22,6 +22,7 @@ const Order = () => {
   const navigate = useNavigate();
   const priorityExpense = priority ? totalSum * 0.05 : 0;
   const finalPrice = totalSum + priorityExpense;
+  
   const form = useForm<OrderFormValues>({
     defaultValues: {
       userName: name,

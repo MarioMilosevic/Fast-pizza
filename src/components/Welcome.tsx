@@ -1,29 +1,18 @@
 import { useDispatch } from "react-redux";
 import { useUserSlice } from "../utils/hooks";
-import { changeUserName } from "../redux/features/userSlice";
 import { setLoading } from "../redux/features/globalLoadingSlice";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import UserForm from "./UserForm";
+
+import ContinueOrdering from "./ContinueOrdering";
 
 const Welcome = () => {
-
-  const {name} = useUserSlice()
-  const [value, setValue] = useState<string>("");
-  // napravicu reakt hook form
-  const dispatch = useDispatch();
+  const { name } = useUserSlice();
   const navigate = useNavigate();
-
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!value) return;
-    goToMenu();
-    navigate("/menu");
-  };
+  const dispatch = useDispatch();
 
   const goToMenu = () => {
     dispatch(setLoading(true));
-    dispatch(changeUserName(value));
     navigate("/menu");
   };
 
@@ -37,32 +26,10 @@ const Welcome = () => {
         </span>
       </h1>
 
-      {/* ovo ispod da refaktorisem */}
-      {!name ? (
-        <>
-          <h3 className="pt-8 pb-4">
-            👋 Welcome! Please start by telling us your name:
-          </h3>
-          <form className="pb-8" onSubmit={submitHandler}>
-            <input
-              type="text"
-              className="rounded-full p-4 text-sm transition-all outline-none duration-300 placeholder:text-stone-400 placeholder:text-sm focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 w-72"
-              placeholder="Your full name"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </form>
-        </>
+      {name ? (
+        <ContinueOrdering clickHandler={goToMenu} />
       ) : (
-        <Button size="big" buttonClickHandler={goToMenu}>
-          Continue ordering, {name}
-        </Button>
-      )}
-
-      {value !== "" && (
-        <Button size="big" buttonClickHandler={goToMenu}>
-          Start ordering
-        </Button>
+        <UserForm clickHandler={goToMenu} />
       )}
     </section>
   );
