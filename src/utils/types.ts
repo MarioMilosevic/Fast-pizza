@@ -12,6 +12,7 @@ export type fetchResponse = {
   data: PizzaType[];
 };
 
+
 export type NewPizzaType = {
   pizzaId: number;
   name: string;

@@ -6,17 +6,13 @@ import { clearCart } from "../redux/features/cartSlice";
 import Button from "./Button";
 import ClearButton from "./ClearButton";
 import CartItem from "./CartItem";
-import { useCartSlice } from "../utils/hooks";
+import { useUserSlice, useCartSlice } from "../utils/hooks";
 
 const Cart = () => {
-  const {
-    user: { name },
-    cart: { cart },
-  } = useCartSlice();
-
+  const { name } = useUserSlice();
+  const { cart } = useCartSlice();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const goToMenu = () => {
     navigate("/menu");
     dispatch(setLoading(true));

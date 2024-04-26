@@ -3,12 +3,6 @@ export const url = (route: string) => {
   return baseUrl;
 };
 
-export type PizzaStateType = {
-  id: number;
-  name: string;
-  unitPrice: number;
-  quantity: number;
-};
 
 export const pizzaState = {
   id: 0,

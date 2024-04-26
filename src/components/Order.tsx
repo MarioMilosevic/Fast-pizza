@@ -8,18 +8,16 @@ import { orderSchema, OrderFormValues } from "../zod/zod";
 import { useForm } from "react-hook-form";
 import { postData } from "../utils/fetch";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addOrder } from "../redux/features/orderSlice";
-import { setLoading } from "../redux/features/globalLoadingSlice";
 import { getUserLocation } from "../utils/helperFunctions";
 import { useState } from "react";
-import { useCartSlice } from "../utils/hooks";
+import { useCartSlice, useUserSlice } from "../utils/hooks";
 
 const Order = () => {
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const totalSum = useSelector(getTotalCartPrice);
-  const { user: { name, address, phoneNumber, priority
-  }, cart:{cart}} = useCartSlice()
-  
+  const { name, address, phoneNumber, priority } = useUserSlice();
+  const { cart } = useCartSlice();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const priorityExpense = priority ? totalSum * 0.05 : 0;
@@ -53,8 +51,6 @@ const Order = () => {
         cart,
       };
       const { data } = await postData(dataToSend);
-      dispatch(addOrder(data));
-      dispatch(setLoading(true));
       navigate(`/order/${data.id}`);
     } catch (error) {
       console.error("Error submitting order", error);

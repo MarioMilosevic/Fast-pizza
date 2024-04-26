@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useCartSlice } from "../utils/hooks";
+import { useUserSlice } from "../utils/hooks";
 import { changeUserName } from "../redux/features/userSlice";
 import { setLoading } from "../redux/features/globalLoadingSlice";
 import { useState } from "react";
@@ -7,25 +7,23 @@ import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
 const Welcome = () => {
-  const { user:{name}} = useCartSlice() 
 
+  const {name} = useUserSlice()
   const [value, setValue] = useState<string>("");
+  // napravicu reakt hook form
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (value) {
-      goToMenu();
-      navigate("/menu");
-    }
+    if (!value) return;
+    goToMenu();
+    navigate("/menu");
   };
 
   const goToMenu = () => {
-    if (!name) {
-      dispatch(changeUserName(value));
-    }
     dispatch(setLoading(true));
+    dispatch(changeUserName(value));
     navigate("/menu");
   };
 
@@ -38,6 +36,8 @@ const Welcome = () => {
           Straight out of the oven, straight to you
         </span>
       </h1>
+
+      {/* ovo ispod da refaktorisem */}
       {!name ? (
         <>
           <h3 className="pt-8 pb-4">
@@ -58,6 +58,7 @@ const Welcome = () => {
           Continue ordering, {name}
         </Button>
       )}
+
       {value !== "" && (
         <Button size="big" buttonClickHandler={goToMenu}>
           Start ordering

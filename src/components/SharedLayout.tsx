@@ -1,5 +1,4 @@
-
-import { useCartSlice } from "../utils/hooks";
+import { useCartSlice, useUserSlice, useLoadingSlice } from "../utils/hooks";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/features/globalLoadingSlice";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -11,14 +10,16 @@ type SearchFormValue = {
   search: string;
 };
 const SharedLayout = () => {
-  const {user, loading, cart} = useCartSlice()
+  const { cart } = useCartSlice();
+  const { name } = useUserSlice();
+  const { loading } = useLoadingSlice();
   const navigate = useNavigate();
   const form = useForm<SearchFormValue>();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { register, handleSubmit, resetField } = form;
   const onSubmit = (data: SearchFormValue) => {
     const { search } = data;
-    dispatch(setLoading(true))
+    dispatch(setLoading(true));
     navigate(`/order/${search}`);
     resetField("search");
   };
@@ -37,11 +38,11 @@ const SharedLayout = () => {
             placeholder="Search order #"
           />
         </form>
-        {user.name !== "" && <div className="uppercase">{user.name}</div>}
+        {name !== "" && <div className="uppercase">{name}</div>}
       </header>
-      {loading.value && <Loading />}
+      {loading && <Loading />}
       <Outlet />
-      {cart.cart.length > 0 && <CartStatus />}
+      {cart.length > 0 && <CartStatus />}
     </>
   );
 };

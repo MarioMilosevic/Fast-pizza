@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { getTotalCartPrice } from "../redux/features/cartSlice";
 import { useCartSlice } from "../utils/hooks";
 const CartStatus = () => {
-  const { cart:{cart} } = useCartSlice()
+  const { cart } = useCartSlice()
   const totalSum = useSelector(getTotalCartPrice);
 
   return (

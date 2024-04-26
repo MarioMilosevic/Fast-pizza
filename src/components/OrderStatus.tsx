@@ -7,28 +7,36 @@ import { OrderType } from "../utils/types";
 import { formatDate, formatToMinutes } from "../utils/dateFunctions";
 import { Link } from "react-router-dom";
 import { clearCart } from "../redux/features/cartSlice";
-import { setLoading } from "../redux/features/globalLoadingSlice";
+import { setLoading, setError } from "../redux/features/globalLoadingSlice";
 import { OrderCartType } from "../utils/types";
+import { useLoadingSlice } from "../utils/hooks";
+import Loading from "./Loading";
+import ErrorFetch from "./ErrorFetch";
 
 const OrderStatus = () => {
   const [order, setOrder] = useState<OrderType>();
   const { orderId } = useParams();
   const dispatch = useDispatch();
-
+  const { loading, error } = useLoadingSlice();
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await fetchOrder(orderId);
+        dispatch(setLoading(true));
+        const { data } = await fetchOrder("5678");
         setOrder(data);
         dispatch(clearCart());
-        dispatch(setLoading(false));
       } catch (error) {
+        dispatch(setError(true));
         console.error("Error fetching order:", error);
+      } finally {
+        dispatch(setLoading(false));
       }
     }
     fetchData();
   }, [orderId, dispatch]);
 
+  if (loading) return <Loading />;
+  if (error) return <ErrorFetch/>;
   return (
     <>
       {order ? (
@@ -46,7 +54,7 @@ const OrderStatus = () => {
               </span>
             </div>
           </div>
-          <div className="bg-stone-200 px-6 py-4 flex justify-between">
+          <div className="bg-stone-200 px-6 py-4 flex justify-between items-center">
             <span className="font-medium">
               Only {formatToMinutes(order.estimatedDelivery, currentDate)}{" "}
               minutes left 😀

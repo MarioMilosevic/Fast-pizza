@@ -20,12 +20,13 @@ const Pizza = ({
   const {cart} = useCartSlice()
   const dispatch = useDispatch();
 
-  const { quantity } = cart.cart.find((item) => item.pizzaId === id) || { quantity: 0 };
+  const { quantity } = cart.find((item) => item.pizzaId === id) || { quantity: 0 };
 
   const addFirstPizza = () => {
     const newPizza = addNewPizzaFn(id, name, unitPrice);
     dispatch(addFirstItem(newPizza));
   };
+  
   return (
     <li className="py-2 flex justify-between">
       <div className="flex gap-4 w-full">
