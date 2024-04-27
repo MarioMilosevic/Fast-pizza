@@ -15,8 +15,9 @@ import ErrorFetch from "./ErrorFetch";
 const OrderStatus = () => {
   const [order, setOrder] = useState<OrderType>();
   const { orderId } = useParams();
-  const dispatch = useDispatch();
   const { loading, error } = useLoadingSlice();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function fetchData() {
       try {

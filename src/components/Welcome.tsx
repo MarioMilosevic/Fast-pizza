@@ -1,20 +1,10 @@
-import { useDispatch } from "react-redux";
 import { useUserSlice } from "../utils/hooks";
-import { setLoading } from "../redux/features/globalLoadingSlice";
-import { useNavigate } from "react-router-dom";
 import UserForm from "./UserForm";
 
 import ContinueOrdering from "./ContinueOrdering";
 
 const Welcome = () => {
   const { name } = useUserSlice();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const goToMenu = () => {
-    dispatch(setLoading(true));
-    navigate("/menu");
-  };
 
   return (
     <section className="mx-auto py-16 flex flex-col items-center justify-center">
@@ -27,9 +17,9 @@ const Welcome = () => {
       </h1>
 
       {name ? (
-        <ContinueOrdering clickHandler={goToMenu} />
+        <ContinueOrdering  />
       ) : (
-        <UserForm clickHandler={goToMenu} />
+        <UserForm  />
       )}
     </section>
   );

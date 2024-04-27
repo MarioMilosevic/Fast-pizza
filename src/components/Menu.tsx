@@ -11,6 +11,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        dispatch(setLoading(true))
         const response = await fetch(url("menu"));
         if (!response.ok) {
           throw new Error("Failed to fetch data");

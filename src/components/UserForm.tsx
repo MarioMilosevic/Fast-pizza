@@ -5,13 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userNameSchema, UserNameFormValues } from "../zod/zod";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../redux/features/globalLoadingSlice";
 
-type UserFormProp = {
-  clickHandler: () => void;
-};
-
-const UserForm = ({ clickHandler }: UserFormProp) => {
+const UserForm = () => {
   const form = useForm<UserNameFormValues>({
     defaultValues: {
       name: "",
@@ -32,7 +27,6 @@ const UserForm = ({ clickHandler }: UserFormProp) => {
   const onSubmit = (data: UserNameFormValues) => {
     const { name } = data;
     dispatch(changeUserName(name));
-    dispatch(setLoading(true));
     navigate("/menu");
   };
   return (
@@ -56,7 +50,7 @@ const UserForm = ({ clickHandler }: UserFormProp) => {
         <p className="text-red-500 text-sm py-2">{errors.name?.message}</p>
       </form>
       {watchUserName && (
-        <Button size="big" buttonClickHandler={clickHandler}>
+        <Button size="big" buttonClickHandler={handleSubmit(onSubmit)}>
           Start ordering
         </Button>
       )}

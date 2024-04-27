@@ -1,13 +1,14 @@
 import Button from "./Button";
 import { useUserSlice } from "../utils/hooks";
-type ContinueOrderingProps = {
-    clickHandler:() => void
-}
+import { useNavigate } from "react-router-dom";
 
-const ContinueOrdering = ({ clickHandler }: ContinueOrderingProps) => {
-    const {name} = useUserSlice()
+
+
+const ContinueOrdering = () => {
+  const { name } = useUserSlice()
+  const navigate = useNavigate()
   return (
-    <Button size="big" buttonClickHandler={clickHandler}>
+    <Button size="big" buttonClickHandler={() => navigate("/menu")}>
       Continue ordering, {name}
     </Button>
   );

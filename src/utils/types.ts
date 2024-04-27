@@ -56,6 +56,8 @@ export type CoordinatesType = {
   longitude: number;
 }
 
+
+
 export type LocationInfo = {
   locality: string;
   city: string;

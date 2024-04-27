@@ -10,11 +10,9 @@ export const postData = async (data: DataType) => {
       },
       body: JSON.stringify(data),
     });
-
     if (!response.ok) {
       throw new Error("Failed to submit order");
     }
-
     const responseData = await response.json();
     return responseData;
   } catch (error) {
